@@ -1,6 +1,3 @@
-# React Native Starter Kit
-
-Read react-native guide https://hello.ekreative.com/js/overview.html
 
 ## Installing
 
