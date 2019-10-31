@@ -52,8 +52,8 @@ class HomeComponent extends React.Component<Props, State> {
            <NewPlaylistComponent />
             }
           </View>
-      <Icon name='ios-add-circle-outline' size={30} color='#000' onPress={this.addNewPlaylist}/>
-      <Button title='Go to Playlist' onPress={this.navigateToPlaylistComponent} />
+        <Icon name='ios-add-circle-outline' size={30} color='#000' onPress={this.addNewPlaylist}/>
+       <Button title='Go to Playlist' onPress={this.navigateToPlaylistComponent} />
      </StyledView>
     );
   }
