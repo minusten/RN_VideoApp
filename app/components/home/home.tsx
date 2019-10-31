@@ -45,7 +45,7 @@ class HomeComponent extends React.Component<Props, State> {
     return (
     <StyledView>
       <HeaderComponent someText={someText} />
-        <Text>Home</Text>
+        <Text>Home Test</Text>
           <View>
            {showDetails
             &&
