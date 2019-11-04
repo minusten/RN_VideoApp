@@ -1,9 +1,12 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
-import styled from 'styled-components/native';
 import HeaderComponent from '../header/header';
 import NewPlaylistComponent from '../newPlaylist/newPlaylist';
+//Style
+import styled from 'styled-components/native';
+//Icon
 import Icon from 'react-native-vector-icons/Ionicons';
+//Router-flux
 import { Actions } from 'react-native-router-flux';
 
 const StyledView = styled.View`
@@ -11,6 +14,13 @@ const StyledView = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+const Title = styled.Text`
+  font-size: 20;
+  font-weight: bold;
+  margin: 10px 10px;
+`;
+
 interface Props {
   navigation: {
     navigate: (screen: string) => void;
@@ -45,11 +55,11 @@ class HomeComponent extends React.Component<Props, State> {
     return (
     <StyledView>
       <HeaderComponent someText={someText} />
-        <Text>Home Test</Text>
+        <Title>Home</Title>
           <View>
            {showDetails
             &&
-           <NewPlaylistComponent />
+           <NewPlaylistComponent playlist='' />
             }
           </View>
         <Icon name='ios-add-circle-outline' size={30} color='#000' onPress={this.addNewPlaylist}/>

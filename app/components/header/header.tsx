@@ -22,9 +22,6 @@ const Name = styled.Text`
   font-weight: bold;
 `;
 interface Props {
-  navigation: {
-    navigate: (screen: string) => void;
-  };
   someText: string;
 }
 
@@ -63,7 +60,6 @@ goToSetting = () => {
       <Text> Hello, <Name> {this.state.username} </Name></Text>
       <Text>{this.props.someText}</Text>
       <Icon name='setting' size={30} color='#000' onPress={this.goToSetting}/>
-      {/* <Button title="Setting" onPress={navigateToSetting} /> */}
     </StyledView>
     );
   }

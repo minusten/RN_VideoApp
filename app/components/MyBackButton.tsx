@@ -5,7 +5,7 @@ import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 class MyBackButton extends PureComponent<NavigationInjectedProps> {
   render() {
     const { navigation } = this.props;
-    return <Button title="Back" onPress={() => navigation.goBack()} />;
+    return <Button title='Back' onPress={() => navigation.goBack()} />;
   }
 }
 

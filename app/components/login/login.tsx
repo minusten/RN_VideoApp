@@ -1,12 +1,21 @@
 import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { Alert } from 'react-native';
+
+//Style
 import styled from 'styled-components/native';
-import { TextInput } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-community/async-storage';
 import { Button, Input } from 'react-native-elements';
+
+//Icon
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+
+//Storage
+import AsyncStorage from '@react-native-community/async-storage';
+
+//Router-flux
 import { Actions } from 'react-native-router-flux';
+
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+
 
 const StyledView = styled.View`
   display: flex;
@@ -22,6 +31,8 @@ interface Props {
   navigation: {
     navigate: (screen: string) => void;
   };
+  changeInputValue(): void;
+  username: string;
 }
 interface State {
   isLogged: boolean;
@@ -44,17 +55,15 @@ class LoginComponent extends React.Component<Props, State> {
   saveName = async(key: string, value: string)  => {
     try {
       await AsyncStorage.setItem('name', this.state.text);
-      if (AsyncStorage.getItem('name')) {
+      if (this.state.text !== '') {
         Actions.home();
-      } else if (AsyncStorage.getItem('')) {
-        Alert.alert('ERRR');
+      } else  {
+        Alert.alert('Please, enter name');
+       
       }
     } catch (e) {
       console.log(e);
     }
-    this.setState({
-      text: '',
-    });
   }
 
   signIn = async() => {
@@ -82,6 +91,7 @@ class LoginComponent extends React.Component<Props, State> {
     <StyledView>
       <Welcome> Hello </Welcome>
        <Input
+        leftIconContainerStyle={{paddingEnd: 5}}
         value={this.state.text}
         onChangeText={text => this.setState({ text })}
         placeholder='Enter name'
@@ -100,7 +110,7 @@ class LoginComponent extends React.Component<Props, State> {
         onPress={this.signIn}
         // disabled={this.state.isSigninInProgress}
         />
-      <Button buttonStyle={{width: '100%', marginTop: 50}} title='Login' onPress={this.saveName} type='outline'/>
+      <Button buttonStyle={{width: '100%', marginTop: 50}} title='Login' onPress={() => {this.saveName('name', this.state.text);}} type='outline'/>
      </StyledView>
     );
   }

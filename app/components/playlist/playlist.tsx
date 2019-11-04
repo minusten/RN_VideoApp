@@ -1,11 +1,17 @@
 import React from 'react';
-import { Button, Text, View, ViewComponent } from 'react-native';
+import { View } from 'react-native';
+
+//Style
 import styled from 'styled-components/native';
-import MyBackButton from '../MyBackButton';
-import HeaderComponent from '../header/header';
-import AsyncStorage from '@react-native-community/async-storage';
+
+//Icon
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Video from 'react-native-video';
+
+//Storage
+import AsyncStorage from '@react-native-community/async-storage';
+
+//Components
+import HeaderComponent from '../header/header';
 import VideoComponent from '../video/video';
 
 const StyledView = styled.View`
@@ -26,7 +32,14 @@ const StyledPlaylist = styled.Text`
   justify-content: space-between;
 `;
 
-interface Props { }
+const Title = styled.Text`
+  font-size: 20;
+  font-weight: bold;
+  margin: 10px 10px;
+`;
+interface Props { 
+  
+}
 
 interface State { 
   playlist: string;
@@ -69,9 +82,9 @@ class PlaylistComponent extends React.Component<{}, State, Props> {
   render() {
     return (
       <View>
-        <HeaderComponent />
+        <HeaderComponent someText=''/>
         <StyledView>
-        <Text> My playlist's </Text>
+        <Title> My playlist's </Title>
         <StyledPlaylist onPress={this.showVideoFunc}>{this.state.playlist}<Icon name='remove' size={30} color='#000' onPress={this.removeFromAsyncStorage}/></StyledPlaylist>
         {this.state.showVideo && <VideoComponent /> }
         </StyledView>
