@@ -23,13 +23,13 @@ class ErrorBoundary extends React.Component<Props, State> {
   state: State = {
     error: null,
     errorInfo: null,
-    showDetails: false
+    showDetails: false,
   };
 
   toggleDetails = (): void => {
     this.setState(state => {
       return {
-        showDetails: !state.showDetails
+        showDetails: !state.showDetails,
       };
     });
   };
@@ -37,7 +37,7 @@ class ErrorBoundary extends React.Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     this.setState({
       error,
-      errorInfo
+      errorInfo,
     });
   }
 

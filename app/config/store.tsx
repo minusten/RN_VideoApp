@@ -3,13 +3,11 @@ import { persistStore, persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { State as MainState } from '../reducers/main';
-import { State as DataState } from '../reducers/data';
+// import { State as UserState } from '../reducers/userReducer';
+
 import rootReducer from '../reducers';
 
-export interface State extends MainState, DataState {
-  main: any;
-}
+// export interface State extends UserState {}
 
 const persistConfig = {
   key: 'root',
@@ -18,5 +16,8 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = createStore(persistedReducer, applyMiddleware(thunk));
+const store = createStore(persistedReducer, applyMiddleware(thunk));
+
 export const persistor = persistStore(store);
+
+export default store;

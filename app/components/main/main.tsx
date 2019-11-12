@@ -2,47 +2,39 @@ import React from 'react';
 
 //Components
 import HomeComponent from '../home/home';
-import HeaderComponent from '../header/header';
-import LoginComponent from '../login/login';
 import NewPlaylistComponent from '../newPlaylist/newPlaylist';
 import PlaylistComponent from '../playlist/playlist';
 import SettingComponent from '../setting/setting';
 import VideoComponent from '../video/video';
+import FavoritesComponent from '../favorites/favorites';
 
 //Router-flux
 import { Router, Scene } from 'react-native-router-flux';
-import { Actions } from 'react-native-router-flux';
+
+//Redux containers
+import LoginContainer from '../../containers/login';
+import HeaderContainer from '../../containers/header';
+import { View } from 'react-native';
+
+//Font
+import Crimson from '../../assets/fonts/CrimsonText-Regular.ttf';
+import CrimsonItalic from '../../assets/fonts/CrimsonText-Italic.ttf';
 
 interface Props {}
 
-interface State {
-    username: string;
-}
-
-class Routes extends React.Component<Props, State> {
-   constructor(props: Props) {
-     super(props);
-     this.state = {
-       username: '',
-     };
-   }
-   changeInputValue = (e: { target: { value: any; }; }) => {
-     this.setState({
-       username: e.target.value,
-     });
-       Actions.home();
-   }
+class Routes extends React.Component<Props> {
     render() {
       return(
         <Router>
-          <Scene key = 'root'>
-            <Scene key = 'home' component = {HomeComponent} title = 'Home' />
-            <Scene key = 'header' component = {HeaderComponent} title = 'Header' />
-            <Scene key = 'login' component = {LoginComponent} title = 'Login' initial = {true} username={this.state.username} changeInputValue={(e: any) => {this.changeInputValue(e);}} />
-            <Scene key = 'newPlaylist' component = {NewPlaylistComponent} title = 'New Playlist' />
-            <Scene key = 'playlist' component = {PlaylistComponent} title = 'Playlist' />
-            <Scene key = 'setting' component = {SettingComponent} title = 'Setting' />
-            <Scene key = 'video' component = {VideoComponent} title = 'Video' />
+          <Scene key = 'root' navigationBarStyle={{ backgroundColor: '#00a4db', height: 25}} >
+            <Scene key = 'home' component = {HomeComponent} title = 'Home' hideNavBar={true}/>
+            <Scene key = 'header' component = {HeaderContainer} title = 'Header' hideNavBar={true}/>
+            <Scene key = 'login' component = {LoginContainer} title = '' initial = {true}  />
+            <Scene key = 'newPlaylist' component = {NewPlaylistComponent} title = 'New Playlist' hideNavBar={true}/>
+            <Scene key = 'playlist' component = {PlaylistComponent} title = 'Playlist' hideNavBar={true}/>
+            <Scene key = 'setting' component = {SettingComponent} title = 'Setting' hideNavBar={true}/>
+            <Scene key = 'video' component = {VideoComponent} title = 'Video' hideNavBar={true}/>
+            <Scene key = 'favorites' component = {FavoritesComponent} title = 'Favorites video' hideNavBar={true} />
           </Scene>
          </Router>
       );

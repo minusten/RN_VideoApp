@@ -1,18 +1,35 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
-import HeaderComponent from '../header/header';
+import { ImageBackground, View } from 'react-native';
 import NewPlaylistComponent from '../newPlaylist/newPlaylist';
 //Style
 import styled from 'styled-components/native';
+import { Button } from 'react-native-elements';
 //Icon
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 //Router-flux
 import { Actions } from 'react-native-router-flux';
+import HeaderContainer from '../../containers/header';
+
+//Fonts
+import Cinzel from '../../../assets/fonts/Cinzel-Regular';
 
 const StyledView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const StyledContainer = styled.View`
+  height: 250px;
+  width: 330px;
+  background-color: rgba(244, 207, 174, 0.47);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 15px;
+  margin-top: 20px;
+  color: black;
 `;
 
 const Title = styled.Text`
@@ -28,7 +45,6 @@ interface Props {
 }
 interface State {
   showDetails: boolean;
-  someText: string;
 }
 
 class HomeComponent extends React.Component<Props, State> {
@@ -36,13 +52,17 @@ class HomeComponent extends React.Component<Props, State> {
     super(props);
     this.state = {
       showDetails: false,
-      someText: 'help',
     };
   }
 
   navigateToPlaylistComponent = () => {
     Actions.playlist();
   }
+
+  navigateToFavoritesComponent = () => {
+    Actions.favorites();
+  }
+
   addNewPlaylist = () => {
     this.setState({
         showDetails: !this.state.showDetails,
@@ -51,20 +71,25 @@ class HomeComponent extends React.Component<Props, State> {
   }
 
   render() {
-    const {showDetails, someText} = this.state;
+    const { showDetails } = this.state;
     return (
-    <StyledView>
-      <HeaderComponent someText={someText} />
-        <Title>Home</Title>
+    <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%',}}> 
+      <StyledView>
+       <HeaderContainer />
+        <StyledContainer> 
           <View>
-           {showDetails
-            &&
-           <NewPlaylistComponent playlist='' />
+           {showDetails ?
+             <NewPlaylistComponent playlist='' />
+            :
+             <Title>Home</Title>
             }
           </View>
-        <Icon name='ios-add-circle-outline' size={30} color='#000' onPress={this.addNewPlaylist}/>
-       <Button title='Go to Playlist' onPress={this.navigateToPlaylistComponent} />
+        <Icon name='playlist-plus' size={40} color='#000' onPress={this.addNewPlaylist}/>
+       <Button  type='outline' titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', marginBottom: 10, width: 150}} title='Go to Playlist' onPress={this.navigateToPlaylistComponent} />
+       <Button  type='outline' titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', width: 150}} title='Go to Favorites' onPress={this.navigateToFavoritesComponent} />
+      </StyledContainer>
      </StyledView>
+    </ImageBackground>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ImageBackground } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
@@ -11,8 +11,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
 
 //Components
-import HeaderComponent from '../header/header';
 import VideoComponent from '../video/video';
+import HeaderContainer from '../../containers/header';
 
 const StyledView = styled.View`
   color: black;
@@ -21,21 +21,26 @@ const StyledView = styled.View`
   justify-content: center;
   align-items: center;
 `;
-const StyledPlaylist = styled.Text`
-  color: black;
-  font-size: 30;
-  border: 1px solid black;
+
+const StyledContainer = styled.Text`
   height: 50;
   width: 90%;
-  background-color: #c0deeb;
+  background-color: rgba(244, 207, 174, 0.47);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 15px;
+  margin-top: 20px;
+  font-size: 30;
+  padding-left: 5px;
 `;
 
 const Title = styled.Text`
   font-size: 20;
   font-weight: bold;
   margin: 10px 10px;
+  color: #dbb26b;
 `;
 interface Props { 
   
@@ -63,33 +68,30 @@ class PlaylistComponent extends React.Component<{}, State, Props> {
       console.log(error);
     }
   }
+
   componentDidMount() {
     this.displayData();
   }
-   removeFromAsyncStorage = async () =>{
-    try {
-      await AsyncStorage.removeItem('playlist');
-    } catch (err) {
-      console.log(`The error is: ${err}`);
-    }
-  }
-  showVideoFunc = () => {
-    console.log('dddddd');
+
+  showVideoFunc = async () => {
     this.setState({
       showVideo: !this.state.showVideo,
     });
+    console.log('dddddd');
   }
+
   render() {
     return (
-      <View>
-        <HeaderComponent someText=''/>
+      <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%',}}> 
+        <HeaderContainer someText=''/>
+        {
+          this.state.showVideo ? <VideoComponent /> :
         <StyledView>
         <Title> My playlist's </Title>
-        <StyledPlaylist onPress={this.showVideoFunc}>{this.state.playlist}<Icon name='remove' size={30} color='#000' onPress={this.removeFromAsyncStorage}/></StyledPlaylist>
-        {this.state.showVideo && <VideoComponent /> }
+        <StyledContainer onPress={this.showVideoFunc}>{this.state.playlist}</StyledContainer>
         </StyledView>
-        {/* <MyBackButton /> */}
-      </View>
+        }
+      </ImageBackground>
     );
   }
 }

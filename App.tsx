@@ -1,8 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import ErrorBoundary from './app/components/ErrorBoundary/ErrorBoundary';
+
+import configureStore from './app/reducers';
+
+// import store from './app/config/store';
+
 import Routes from './app/components/main/main';
-import { persistor, store } from './app/config/store';
+import ErrorBoundary from './app/components/ErrorBoundary/ErrorBoundary';
+
+const store = configureStore();
 
 const App = () => {
   return (

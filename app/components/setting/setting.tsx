@@ -1,12 +1,11 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, ImageBackground } from 'react-native';
 //Style
 import styled from 'styled-components/native';
 import { Input, Button } from 'react-native-elements';
 
 //Components
-import HeaderComponent from '../header/header';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import HeaderContainer from '../../containers/header';
 
 const StyledView = styled.View`
   display: flex;
@@ -26,10 +25,10 @@ const Container = styled.View`
   justify-content: center;
   align-items: center;
   height: 100px;
-  width: 250px;
+  width: 300px;
   border-radius: 15;
   flex-direction: row;
-  background-color: #e6edf0;
+  /* background-color: rgba(244, 207, 174, 0.47); */
 `;
 
 interface Props {}
@@ -51,8 +50,9 @@ class SettingComponent extends React.Component<Props, State> {
   }
   render() {
     return (
+    <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%',}}> 
       <StyledView>
-        <HeaderComponent someText=''/>
+        <HeaderContainer someText=''/>
         <Title> Setting </Title>
          <Text> Add new name </Text>
           <Container> 
@@ -65,15 +65,16 @@ class SettingComponent extends React.Component<Props, State> {
          </Container>
         <Text> Choose another google account </Text>
         <Container> 
-        <GoogleSigninButton
+        {/* <GoogleSigninButton
         style={{ width: '100%', height: 48 }}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
         // onPress={this.signIn}
         // disabled={this.state.isSigninInProgress}
-        />
+        /> */}
       </Container>
      </StyledView>
+    </ImageBackground>
     );
   }
 }

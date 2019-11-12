@@ -30,7 +30,8 @@ target 'reactNativeStarterKit' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'react-native-video', :path => '../node_modules/react-native-video/react-native-video.podspec'
-
+  # pod 'GoogleSignIn', '~> 5.0.0'
+  # pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
@@ -49,4 +50,11 @@ target 'reactNativeStarterKit-tvOS' do
     # Pods for testing
   end
 
+end
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == "React"
+      target.remove_from_project
+    end
+  end
 end

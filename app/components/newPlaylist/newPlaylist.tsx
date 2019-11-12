@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, KeyboardAvoidingView } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';

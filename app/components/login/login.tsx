@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, ImageBackground, Text, View } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
@@ -14,8 +14,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 //Router-flux
 import { Actions } from 'react-native-router-flux';
 
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+// import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 
+//Redux
+import { addUserName } from '../../actions/actions';
+import { connect } from 'react-redux';
 
 const StyledView = styled.View`
   display: flex;
@@ -28,17 +31,16 @@ const Welcome = styled.Text`
   color: #88a8b8;
 `;
 interface Props {
-  navigation: {
-    navigate: (screen: string) => void;
-  };
-  changeInputValue(): void;
-  username: string;
+  username: string[];
+  addUserName: (newUsername: string) => void;
 }
 interface State {
   isLogged: boolean;
   text: string;
-  userInfo: string;
+  loggedInUser: string;
   token: string;
+  isSigninInProgress: boolean;
+  isUserSignedIn: boolean;
 }
 
 class LoginComponent extends React.Component<Props, State> {
@@ -47,71 +49,76 @@ class LoginComponent extends React.Component<Props, State> {
     this.state = {
         isLogged: false,
         text: '',
-        userInfo: '',
+        loggedInUser: '',
         token: '',
+        isSigninInProgress: false,
+        isUserSignedIn: false,
     };
  }
-
-  saveName = async(key: string, value: string)  => {
-    try {
-      await AsyncStorage.setItem('name', this.state.text);
-      if (this.state.text !== '') {
-        Actions.home();
-      } else  {
-        Alert.alert('Please, enter name');
-       
-      }
-    } catch (e) {
-      console.log(e);
+  saveUserName = () => {
+    // const newArr = this.props.username.slice();
+    // newArr.push(this.state.text);
+    this.props.addUserName(this.state.text);
+    if(this.state.text) {
+      return Actions.home();
+    } else {
+      Alert.alert('Please, enter username');
     }
-  }
+   
+  };
 
-  signIn = async() => {
-    console.log('adfdsfsdf');
-    try {
-      const userInfo = await GoogleSignin.signIn() && GoogleSignin.configure({
-        offlineAccess: false,
-        iosClientId: '864164948272-t63e5jl1e1nqpr2rq80t0n3gmj59c9h1.apps.googleusercontent.com',
-        webClientId: '864164948272-v6o7ltcsb146tk4j425hfvb8pvbvir8u.apps.googleusercontent.com',
-      });
-      this.setState({ userInfo });
-      console.log(this.state.userInfo);
-      if(this.state.userInfo) {
-        Actions.home();
-      } else {
-        console.log('NOOO');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // onSignInPress = () => {
+  //   try {
+  //     this.setState({ isSigninInProgress: true });
+  //     GoogleSignin.hasPlayServices();
+  //     const loggedInUser =  GoogleSignin.signIn()
+  //     .then((loggedInUser) => {
+  //       console.log('user', loggedInUser);
+  //       this.setState({
+  //         loggedInUser,
+  //         isUserSignedIn: true,
+  //         isSigninInProgress: false,
+  //       });
+  //       Actions.home();
+  //     })
+  //     .done();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   render() {
     return (
+  <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%'}}> 
     <StyledView>
-      <Welcome> Hello </Welcome>
+      {/* <Welcome> Sign in </Welcome> */}
        <Input
-        leftIconContainerStyle={{paddingEnd: 5}}
+        inputStyle={{color: 'white', marginTop: 150}}
+        leftIconContainerStyle={{paddingEnd: 5, marginTop: 150}}
         value={this.state.text}
         onChangeText={text => this.setState({ text })}
         placeholder='Enter name'
+        placeholderTextColor='#00a4db'
         leftIcon={
           <Icon
             name='user'
             size={24}
-            color='#10a3c7'
+            color='#00a4db'
             />
           }
         />
-        <GoogleSigninButton
-        style={{ width: '100%', height: 48 }}
+      <Button buttonStyle={{width: '100%', marginTop: 50}} title='Login' onPress={this.saveUserName} type='outline'/>
+     
+      <Text style={{marginTop: 150, color: '#00a4db'}}>or</Text>
+      {/* <GoogleSigninButton
+        style={{ width: '60%', height: 48, borderWidth: 1, borderColor: '#00a4db'}}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
-        onPress={this.signIn}
-        // disabled={this.state.isSigninInProgress}
-        />
-      <Button buttonStyle={{width: '100%', marginTop: 50}} title='Login' onPress={() => {this.saveName('name', this.state.text);}} type='outline'/>
+        onPress={this.onSignInPress}
+        disabled={this.state.isSigninInProgress}
+        /> */}
      </StyledView>
+    </ImageBackground>
     );
   }
 }
