@@ -14,6 +14,7 @@ import { Actions } from 'react-native-router-flux';
 
 //Animated video list
 import { SwipeRow } from 'react-native-swipe-list-view';
+import HeaderContainer from '../../containers/header';
 
 const StyledView = styled.View`
   display: flex;
@@ -22,7 +23,11 @@ const StyledView = styled.View`
   width: 100%;
   height: 100%;
   background-color: rgba(244, 207, 174, 0.47);
-  font-family: 'Zocial';
+`;
+
+const StyledText = styled.Text`
+  font-size: 20;
+  font-family: 'CormorantGaramond-Bold';
 `;
 
 const StyledContainer = styled.View`
@@ -44,6 +49,7 @@ const Title = styled.Text`
   align-items: center;
   margin-bottom: 5px;
   font-family: 'AbrilFatface-Regular';
+  margin-top: 20;
 `; 
 
 const CLIENT_ID = 'f37f467dae619c20091373e3a873f337ab790609';
@@ -55,6 +61,7 @@ interface Props {}
 interface State {
     vimeo: any[];
     isFavorite: boolean;
+    favoriteVideo: string[];
 }
 
 class VideoComponent extends React.Component<Props, State> {
@@ -64,6 +71,7 @@ class VideoComponent extends React.Component<Props, State> {
             vimeo: [],
             width: new Animated.Value(0),
             isFavorite: false,
+            favoriteVideo: [],
         };
     }
   async getVideosForChannel() {
@@ -81,9 +89,10 @@ class VideoComponent extends React.Component<Props, State> {
     console.log('VIMEO', this.state.vimeo);
   }
 
-  addToFavorites = () => {
+  addToFavorites = (index, e) => {
     this.setState({
       isFavorite: !this.state.isFavorite,
+      favoriteVideo: this.state.favoriteVideo.filter(item => item !== e.target.value),
     });
   }
 
@@ -116,10 +125,9 @@ class VideoComponent extends React.Component<Props, State> {
                 originWhitelist={['file://', '*']} 
                 style={{ flex: 1, height: 400, width: 350 }}
                 />
-               
-               <Text>{video.name}</Text>
-               <Text>{Math.floor(video.duration % 3600 / 60)}:{Math.floor(video.duration % 3600 % 60)}</Text>
-               <TouchableOpacity onPress={this.addToFavorites}> 
+               <StyledText>{video.name}</StyledText>
+               <StyledText>{Math.floor(video.duration % 3600 / 60)}:{Math.floor(video.duration % 3600 % 60)}</StyledText>
+               <TouchableOpacity onPress={index => {this.addToFavorites(index);}}> 
                 {this.state.isFavorite ? <Image source={require('../../../assets/images/icons8-heart-24-filled.png')}/>:<Image source={require('../../../assets/images/icons8-heart-24.png')}/>}
                </TouchableOpacity>
                </StyledContainer>

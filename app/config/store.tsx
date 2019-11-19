@@ -12,8 +12,9 @@ export default function configureStore() {
   const middleWareEnhancer = applyMiddleware(...middlewares);
 
   const store = createStore(
-    userReducer,
+    // userReducer,
     // playlistReducer,
+    reducers,
     devToolsEnhancer(middleWareEnhancer)
   );
 

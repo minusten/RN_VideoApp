@@ -2,9 +2,6 @@ import React from 'react';
 
 //Components
 import HomeComponent from '../home/home';
-import NewPlaylistComponent from '../newPlaylist/newPlaylist';
-import PlaylistComponent from '../playlist/playlist';
-import SettingComponent from '../setting/setting';
 import VideoComponent from '../video/video';
 import FavoritesComponent from '../favorites/favorites';
 
@@ -14,12 +11,9 @@ import { Router, Scene } from 'react-native-router-flux';
 //Redux containers
 import LoginContainer from '../../containers/login';
 import HeaderContainer from '../../containers/header';
-import { View } from 'react-native';
-
-//Font
-import Crimson from '../../assets/fonts/CrimsonText-Regular.ttf';
-import CrimsonItalic from '../../assets/fonts/CrimsonText-Italic.ttf';
 import NewPlaylistContainer from '../../containers/newPlaylist';
+import PlaylistContainer from '../../containers/playlist';
+import SettingContainer from '../../containers/setting';
 
 interface Props {}
 
@@ -32,8 +26,8 @@ class Routes extends React.Component<Props> {
             <Scene key = 'header' component = {HeaderContainer} title = 'Header' hideNavBar={true}/>
             <Scene key = 'login' component = {LoginContainer} title = '' initial = {true}  />
             <Scene key = 'newPlaylist' component = {NewPlaylistContainer} title = 'New Playlist' hideNavBar={true}/>
-            <Scene key = 'playlist' component = {PlaylistComponent} title = 'Playlist' hideNavBar={true}/>
-            <Scene key = 'setting' component = {SettingComponent} title = 'Setting' hideNavBar={true}/>
+            <Scene key = 'playlist' component = {PlaylistContainer} title = 'Playlist' hideNavBar={true}/>
+            <Scene key = 'setting' component = {SettingContainer} title = 'Setting' hideNavBar={true}/>
             <Scene key = 'video' component = {VideoComponent} title = 'Video' hideNavBar={true}/>
             <Scene key = 'favorites' component = {FavoritesComponent} title = 'Favorites video' hideNavBar={true} />
           </Scene>

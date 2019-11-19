@@ -19,7 +19,7 @@ export interface PlaylistState {
     playlist: Playlist[];
 }
 
-
+export const REMOVE_PLAYLIST = 'REMOVE_PLAYLIST';
 
 
 // interface AddUsernameAction {

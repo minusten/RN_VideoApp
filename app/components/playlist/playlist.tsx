@@ -1,8 +1,9 @@
 import React from 'react';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, View } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
+import { Button } from 'react-native-elements';
 
 //Icon
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,17 +24,31 @@ const StyledView = styled.View`
 `;
 
 const StyledContainer = styled.Text`
-  height: 50;
-  width: 90%;
-  background-color: rgba(244, 207, 174, 0.47);
+  /* /* height: 50;
+  
+
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: row; */
   border: 1px solid black;
-  border-radius: 15px;
-  margin-top: 20px;
+  border-radius: 15px; 
+  width: 80%;
+  height: 50;
   font-size: 30;
-  padding-left: 5px;
+  padding-left: 5px; 
+  background-color: rgba(244, 207, 174, 0.47);
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledCont = styled.View`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  width: 90%;
+  flex-direction: row;
 `;
 
 const Title = styled.Text`
@@ -60,25 +75,18 @@ class PlaylistComponent extends React.Component<{}, State, Props> {
       showVideo: false,
     };
   }
-  // displayData = async ()=> {  
-  //   try{
-  //     this.setState({playlist: await AsyncStorage.getItem('playlist')});
-  //     console.log(this.state.playlist);
-  //   }
-  //   catch(error){
-  //     console.log(error);
-  //   }
-  // }
-
-  // componentDidMount() {
-  //   this.displayData();
-  // }
 
   showVideoFunc = async () => {
     this.setState({
       showVideo: !this.state.showVideo,
     });
     console.log('dddddd');
+  }
+
+  deletePlaylist = (e: { preventDefault: () => void; }, id: any) => {
+    e.preventDefault();
+    this.props.removePlaylist(id);
+    console.log('delete');
   }
 
   render() {
@@ -89,7 +97,16 @@ class PlaylistComponent extends React.Component<{}, State, Props> {
           this.state.showVideo ? <VideoComponent /> :
         <StyledView>
         <Title> My playlist's </Title>
-        <StyledContainer onPress={this.showVideoFunc}>{this.props.playlist}</StyledContainer>
+        {this.props.playlist.map((video: string[], name: string)=>{
+          return (
+          <StyledCont> 
+           <StyledContainer onPress={this.showVideoFunc} key={name}>
+            {video}
+           </StyledContainer> 
+           <Button title='Delete' onPress={e => this.deletePlaylist(e, name)} buttonStyle={{backgroundColor: '#d96e3d', marginLeft: 10, height: 40}} titleStyle={{color: 'black'}}/>
+          </StyledCont>
+          );
+        })}
         </StyledView>
         }
       </ImageBackground>

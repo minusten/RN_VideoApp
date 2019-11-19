@@ -14,15 +14,9 @@ export const addPlaylist = (playlist: any) => {
   };
 };
 
-
-
-
-
-// import { UserState, UserActionTypes, ADD_USERNAME } from './types';
-
-// export function addUserName(newUsername: UserState) {
-//     return {
-//         type: ADD_USERNAME,
-//         payload: newUsername,
-//     };
-// }
+export const removePlaylist = (id: number) => {
+  return {
+    type: actionTypes.REMOVE_PLAYLIST,
+    id,
+  };
+};

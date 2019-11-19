@@ -1,7 +1,7 @@
 import * as reactRedux from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addPlaylist } from '../actions/actions';
-import NewPlaylistComponent from '../components/newPlaylist/newPlaylist';
+import { addPlaylist, removePlaylist } from '../actions/actions';
+import PlaylistComponent from '../components/playlist/playlist';
 
 const mapStateToProps = (state: { playlist: string[]; }) => {
   console.log('state', state);
@@ -10,12 +10,12 @@ const mapStateToProps = (state: { playlist: string[]; }) => {
   };
 };
 const mapDispatchToProps = dispatch => ({
-    ...bindActionCreators({ addPlaylist }, dispatch),
+    ...bindActionCreators({ addPlaylist, removePlaylist }, dispatch),
 });
 
-const NewPlaylistContainer = reactRedux.connect(
+const PlaylistContainer = reactRedux.connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewPlaylistComponent);
+)(PlaylistComponent);
 
-export default NewPlaylistContainer;
+export default PlaylistContainer;

@@ -1,19 +1,30 @@
 import React from 'react';
-import { Text, ImageBackground } from 'react-native';
+import { ImageBackground } from 'react-native';
 
 // Style
 import styled from 'styled-components/native';
+import { Button } from 'react-native-elements';
+
+//Containers
 import HeaderContainer from '../../containers/header';
+
+//Router-flux
+import { Actions } from 'react-native-router-flux';
 
 const StyledView = styled.View`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #d8e6e8;
-  border-bottom-width: 1px;
-  border-bottom-color: black;
+`;
+
+const StyledContainer = styled.View`
+  height: 250px;
   width: 100%;
-  flex-direction: row;
+  margin-top: 20;
+  background-color: rgba(244, 207, 174, 0.47);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Name = styled.Text`
@@ -32,13 +43,19 @@ class FavoritesComponent extends React.Component<Props> {
 //     };
 //   }
 
+  goToVideo = () => {
+    Actions.video();
+  }
+
   render() {
     return (
         <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%',}}> 
          <StyledView>
            <HeaderContainer />
-           <Name> Favorites video </Name>
-           <Text> FAVORITES  </Text>
+           <StyledContainer> 
+            <Name> Favorites video </Name>
+            <Button  type='outline' titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{borderColor: 'black', width: 150}} title='Add new video' onPress={this.goToVideo}/>
+           </StyledContainer>
          </StyledView>
         </ImageBackground>
     );

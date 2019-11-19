@@ -8,24 +8,37 @@ import { Input, Button } from 'react-native-elements';
 import HeaderContainer from '../../containers/header';
 
 const StyledView = styled.View`
-  display: flex;
-  /* justify-content: center;
+  /* display: flex;
+  justify-content: center;
   align-items: center; */
   width: 100%;
   height: 100%;
   background-color: rgba(244, 207, 174, 0.47);
+
+`;
+
+const StyledMainContainer = styled.View`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+`;
+
+const StyledContainer = styled.View`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+  flex-direction: row;
+  margin: 20px 20px;
 `;
 
 const Title = styled.Text`
-  font-size: 20;
-  font-weight: bold;
+  font-size: 30;
+  margin: 10px 10px;
+  font-family: 'AbrilFatface-Regular';
 `;
 
-const Container = styled.View`
-  width: 300px;
-  height: 300px;
-  background-color: rgba(244, 207, 174, 0.47);
-`;
 
 interface Props {}
 
@@ -42,22 +55,27 @@ class SettingComponent extends React.Component<Props, State> {
   }
 
   saveNewName = (e: any) => {
+    this.props.addUserName(this.state.newUserName);
     console.log(e.target.value);
   }
+
   render() {
     return (
     <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%',}}> 
       <HeaderContainer someText=''/>
       <StyledView>
+       <StyledMainContainer>
         <Title> Setting </Title>
-       
          <Text> Add new name </Text>
+         <StyledContainer> 
               <Input
-               placeholder='New username'
+               placeholder='Add new username'
+               placeholderTextColor={'black'}
                value={this.state.newUserName}
                onChangeText={newUserName => this.setState({ newUserName })}
               />
-            <Button title='Save' onPress={this.saveNewName} type='outline' />
+            <Button title='Save' onPress={this.saveNewName} type='outline'  titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{marginLeft: 50, borderColor: 'black', backgroundColor: '#f08f3a'}} />
+          </StyledContainer>
         <Text> Choose another google account </Text>
         {/* <GoogleSigninButton
         style={{ width: '100%', height: 48 }}
@@ -66,7 +84,7 @@ class SettingComponent extends React.Component<Props, State> {
         // onPress={this.signIn}
         // disabled={this.state.isSigninInProgress}
         /> */}
-     
+    </StyledMainContainer>
      </StyledView>
     </ImageBackground>
     );

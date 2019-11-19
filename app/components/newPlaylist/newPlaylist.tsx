@@ -42,9 +42,14 @@ class NewPlaylistComponent extends React.Component<State, Props> {
  }
 
 savePlaylist = () => {
-  const newArr = this.props.playlist.slice();
-  newArr.push(this.state.playlistTitle);
-  this.props.addPlaylist(newArr);
+  if (this.state.playlistTitle) {
+    const newArr = this.props.playlist.slice();
+    newArr.push(this.state.playlistTitle);
+    this.props.addPlaylist(newArr);
+    Actions.playlist();
+  } else {
+    Alert.alert('Please, enter playlist name');
+  }
 }
 
  render() {
