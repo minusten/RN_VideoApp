@@ -7,6 +7,17 @@ export const addUserName = (username: any) => {
   };
 };
 
+export const addPlaylist = (playlist: any) => {
+  return {
+    type: actionTypes.ADD_PLAYLIST,
+    payload: playlist,
+  };
+};
+
+
+
+
+
 // import { UserState, UserActionTypes, ADD_USERNAME } from './types';
 
 // export function addUserName(newUsername: UserState) {

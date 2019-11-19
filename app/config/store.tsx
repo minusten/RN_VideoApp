@@ -1,23 +1,21 @@
 import { createStore, applyMiddleware } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import thunk from 'redux-thunk';
-import AsyncStorage from '@react-native-community/async-storage';
+import thunkMiddleware from 'redux-thunk';
 
-// import { State as UserState } from '../reducers/userReducer';
+import devToolsEnhancer from 'remote-redux-devtools';
+import reducers from '../reducers';
 
-import rootReducer from '../reducers';
+import userReducer from '../reducers/userReducer';
+import playlistReducer from '../reducers/playlistReducer';
 
-// export interface State extends UserState {}
+export default function configureStore() {
+  const middlewares = [thunkMiddleware];
+  const middleWareEnhancer = applyMiddleware(...middlewares);
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-};
+  const store = createStore(
+    userReducer,
+    // playlistReducer,
+    devToolsEnhancer(middleWareEnhancer)
+  );
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store = createStore(persistedReducer, applyMiddleware(thunk));
-
-export const persistor = persistStore(store);
-
-export default store;
+  return store;
+}

@@ -12,6 +12,7 @@ import HeaderContainer from '../../containers/header';
 
 //Fonts
 import Cinzel from '../../../assets/fonts/Cinzel-Regular';
+import NewPlaylistContainer from '../../containers/newPlaylist';
 
 const StyledView = styled.View`
   display: flex;
@@ -33,9 +34,9 @@ const StyledContainer = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 20;
-  font-weight: bold;
+  font-size: 30;
   margin: 10px 10px;
+  font-family: 'AbrilFatface-Regular';
 `;
 
 interface Props {
@@ -79,14 +80,14 @@ class HomeComponent extends React.Component<Props, State> {
         <StyledContainer> 
           <View>
            {showDetails ?
-             <NewPlaylistComponent playlist='' />
+             <NewPlaylistContainer />
             :
-             <Title>Home</Title>
+             <Title>Welcome to home</Title>
             }
           </View>
         <Icon name='playlist-plus' size={40} color='#000' onPress={this.addNewPlaylist}/>
-       <Button  type='outline' titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', marginBottom: 10, width: 150}} title='Go to Playlist' onPress={this.navigateToPlaylistComponent} />
-       <Button  type='outline' titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', width: 150}} title='Go to Favorites' onPress={this.navigateToFavoritesComponent} />
+       <Button  type='outline' titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{borderColor: 'black', marginBottom: 10, width: 150 }} title='Go to Playlist' onPress={this.navigateToPlaylistComponent} />
+       <Button  type='outline' titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{borderColor: 'black', width: 150}} title='Go to Favorites' onPress={this.navigateToFavoritesComponent} />
       </StyledContainer>
      </StyledView>
     </ImageBackground>

@@ -1,13 +1,26 @@
+export const ADD_USERNAME = 'ADD_USERNAME';
+
 export interface User {
     username: string;
 }
 
 export interface UserState {
-    usernames: User[];
+    username: User[];
 }
 
-export const ADD_USERNAME = 'ADD_USERNAME';
-export const DELETE_USERNAME = 'DELETE_USERNAME';
+
+export const ADD_PLAYLIST = 'ADD_PLAYLIST';
+
+export interface Playlist {
+    playlist: string[];
+}
+
+export interface PlaylistState {
+    playlist: Playlist[];
+}
+
+
+
 
 // interface AddUsernameAction {
 //     type: typeof ADD_USERNAME;

@@ -6,7 +6,6 @@ import styled from 'styled-components/native';
 import { Input, Button } from 'react-native-elements';
 
 //Storage
-import AsyncStorage from '@react-native-community/async-storage';
 
 //Router-flux
 import { Actions } from 'react-native-router-flux';
@@ -19,47 +18,47 @@ const StyledView = styled.View`
   width: 80%;
   border-radius: 15;
   flex-direction: row;
-  background-color: #e6edf0;
+  background-color: rgba(244, 207, 174, 0.47);
 `;
 
 interface Props {
   text: string;
-  playlist: string;
+  playlistTitle: string;
+  playlist: string[];
 }
 
 interface State {
-  playlist: string;
+  playlistTitle: string;
 }
 
 class NewPlaylistComponent extends React.Component<State, Props> {
  constructor(props: Props){
   super(props);
   this.state = {
-      playlist: '',
-      text: '',
+    playlistTitle: '',
+    text: '',
+    playlist: [],
   };
  }
- savePlaylist = async(_key: string, value: string) => {
-    try {
-      await AsyncStorage.setItem('playlist', this.state.playlist);
-      if (this.state.playlist !== '') {
-        Actions.playlist();
-      } else {
-        Alert.alert('Please, enter name of playlist');
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
+
+savePlaylist = () => {
+  const newArr = this.props.playlist.slice();
+  newArr.push(this.state.playlistTitle);
+  this.props.addPlaylist(newArr);
+}
+
  render() {
     return (
       <StyledView>
         <Input
+            placeholderTextColor={'black'}
             placeholder='New playlist'
-            value={this.state.playlist}
-            onChangeText={playlist => this.setState({ playlist })}
+            value={this.state.playlistTitle}
+            onChangeText={playlistTitle => this.setState({ playlistTitle })}
         />
-        <Button title='Add' onPress={() => {this.savePlaylist('playlist', this.state.playlist);}} type='outline' />
+        <Button title='Add' onPress={this.savePlaylist} type='outline' 
+        titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', marginRight: 5}}
+        />
       </StyledView>
       );
    }

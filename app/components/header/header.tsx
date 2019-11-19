@@ -25,8 +25,17 @@ const StyledView = styled.View`
 `;
 
 const Name = styled.Text`
-  font-weight: bold;
-  color: white;
+  color: black;
+  font-size: 20;
+  font-family: 'AbrilFatface-Regular';
+  text-shadow: 2px 0 2px #f7d79e;
+`;
+
+const StyledText = styled.Text`
+  color: black;
+  font-size: 20;
+  font-family: 'CormorantGaramond-Regular';
+  margin-left: 5px;
 `;
 
 interface Props {
@@ -34,13 +43,6 @@ interface Props {
 }
 
 class HeaderComponent extends React.Component<Props> {
-  constructor(props: Props){
-    super(props);
-    this.state = {
-      username: this.props.username.username,
-    };
-  }
-
   goToSetting = () => {
     Actions.setting();
   };
@@ -48,7 +50,7 @@ class HeaderComponent extends React.Component<Props> {
   render() {
     return (
          <StyledView>
-           <Text>Hello, {this.props.username.username} </Text>
+           <StyledText>Hello, <Name>{this.props.username}</Name> </StyledText>
            <Icon name='menu' size={30} color='#000' onPress={this.goToSetting}/>
          </StyledView>
     );

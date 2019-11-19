@@ -1,23 +1,4 @@
-// import * as actionTypes from '../actions/types';
-
-//   const initialState: State = {
-//     username: [],
-//   };
-// const userReducer = (state = initialState, action: { type: any; payload: any; }) => {
-//   switch (action.type) {
-//     case actionTypes.ADD_USERNAME:
-//       return {
-//         ...state,
-//         username: action.payload,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
-// export default userReducer;
-
-import { UserState, UserActionTypes, ADD_USERNAME } from '../actions/types';
+import { ADD_USERNAME } from '../actions/types';
 
 const initialState = {
     username: '',

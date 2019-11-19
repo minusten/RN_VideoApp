@@ -31,8 +31,8 @@ const Welcome = styled.Text`
   color: #88a8b8;
 `;
 interface Props {
-  username: string[];
-  addUserName: (newUsername: string) => void;
+  // username: string[];
+  // addUserName: (newUsername: string) => void;
 }
 interface State {
   isLogged: boolean;
@@ -93,7 +93,7 @@ class LoginComponent extends React.Component<Props, State> {
     <StyledView>
       {/* <Welcome> Sign in </Welcome> */}
        <Input
-        inputStyle={{color: 'white', marginTop: 150}}
+        inputStyle={{color: 'white', marginTop: 150, fontFamily: 'CormorantGaramond-Bold', fontSize: 20}}
         leftIconContainerStyle={{paddingEnd: 5, marginTop: 150}}
         value={this.state.text}
         onChangeText={text => this.setState({ text })}
@@ -107,8 +107,7 @@ class LoginComponent extends React.Component<Props, State> {
             />
           }
         />
-      <Button buttonStyle={{width: '100%', marginTop: 50}} title='Login' onPress={this.saveUserName} type='outline'/>
-     
+      <Button buttonStyle={{width: '100%', marginTop: 50}} titleStyle={{fontFamily: 'CormorantGaramond-Bold', fontSize: 30}} title='Login' onPress={this.saveUserName} type='outline'/>
       <Text style={{marginTop: 150, color: '#00a4db'}}>or</Text>
       {/* <GoogleSigninButton
         style={{ width: '60%', height: 48, borderWidth: 1, borderColor: '#00a4db'}}

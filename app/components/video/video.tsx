@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, ScrollView, Image, TouchableOpacity} from 'react-native';
+import { View, Text, Button, ScrollView, Image, TouchableOpacity, Animated} from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
@@ -13,7 +13,7 @@ import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 
 //Animated video list
-import DraggableFlatList, { RenderItemInfo, OnMoveEndInfo } from 'react-native-draggable-flatlist';
+import { SwipeRow } from 'react-native-swipe-list-view';
 
 const StyledView = styled.View`
   display: flex;
@@ -22,6 +22,7 @@ const StyledView = styled.View`
   width: 100%;
   height: 100%;
   background-color: rgba(244, 207, 174, 0.47);
+  font-family: 'Zocial';
 `;
 
 const StyledContainer = styled.View`
@@ -42,24 +43,18 @@ const Title = styled.Text`
   justify-content: center;
   align-items: center;
   margin-bottom: 5px;
+  font-family: 'AbrilFatface-Regular';
 `; 
 
 const CLIENT_ID = 'f37f467dae619c20091373e3a873f337ab790609';
 const CLIENT_SECRET = 'f1c+7wQ+T6nQs34aQP4Y4KMKWPh4DvLUPrGiYASnv0d1fjYg7T9Y9Qz1xW63J5fLhvg+bDwlczZg4gveA+9d9ETaJXdrVSxUDrDtcBstnf3gCCDhuB1W8RAwLcmQUCUI';
 const ACCESS_TOKEN = '4d51be248a8e7d14eddc69bba0d7f5e7';
 
-type Video = {
-  id: number,
-  name: string,
-  favorite: boolean,
-};
-
 interface Props {}
 
 interface State {
     vimeo: any[];
-    image: string;
-    data: Video[];
+    isFavorite: boolean;
 }
 
 class VideoComponent extends React.Component<Props, State> {
@@ -67,7 +62,8 @@ class VideoComponent extends React.Component<Props, State> {
         super(props);
         this.state = {
             vimeo: [],
-            image: '',
+            width: new Animated.Value(0),
+            isFavorite: false,
         };
     }
   async getVideosForChannel() {
@@ -85,8 +81,21 @@ class VideoComponent extends React.Component<Props, State> {
     console.log('VIMEO', this.state.vimeo);
   }
 
+  addToFavorites = () => {
+    this.setState({
+      isFavorite: !this.state.isFavorite,
+    });
+  }
+
   componentDidMount() {
     this.getVideosForChannel();
+    Animated.timing(
+      this.state.width, 
+      {
+        toValue: 370,
+        duration: 4000,
+      }
+    ).start();
   }
   
 
@@ -94,28 +103,29 @@ class VideoComponent extends React.Component<Props, State> {
     return (
       <StyledView>
         <ScrollView> 
-         <Title> My videos</Title>
-          {/* <Button title='Go to favorites' onPress={this.goToFavorites} /> */}
+         <Title> My videos</Title> 
           {this.state.vimeo.map((video, name) => {
           return (
-            <StyledContainer key={name}> 
+           <Animated.View style = {{width: this.state.width}} key={name}> 
+            <StyledContainer>
               <WebView source={{uri: video.link}} 
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
                 useWebKit={true}   
                 startInLoadingState={true}
                 originWhitelist={['file://', '*']} 
-                style={{
-                  flex: 1,
-                  height: 400, 
-                  width: 350,
-                }}
+                style={{ flex: 1, height: 400, width: 350 }}
                 />
+               
                <Text>{video.name}</Text>
-              <Text>{Math.floor(video.duration % 3600 / 60)}:{Math.floor(video.duration % 3600 % 60)}</Text>
-          </StyledContainer>
+               <Text>{Math.floor(video.duration % 3600 / 60)}:{Math.floor(video.duration % 3600 % 60)}</Text>
+               <TouchableOpacity onPress={this.addToFavorites}> 
+                {this.state.isFavorite ? <Image source={require('../../../assets/images/icons8-heart-24-filled.png')}/>:<Image source={require('../../../assets/images/icons8-heart-24.png')}/>}
+               </TouchableOpacity>
+               </StyledContainer>
+          </Animated.View>
          );
-        })}
+        })} 
       </ScrollView>
     </StyledView>
    

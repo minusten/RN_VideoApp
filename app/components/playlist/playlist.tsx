@@ -37,13 +37,14 @@ const StyledContainer = styled.Text`
 `;
 
 const Title = styled.Text`
-  font-size: 20;
-  font-weight: bold;
+  font-size: 30;
   margin: 10px 10px;
   color: #dbb26b;
+  font-family: 'AbrilFatface-Regular';
+  text-shadow: 2px 2px 2px #000;
 `;
 interface Props { 
-  
+  playlist: string[];
 }
 
 interface State { 
@@ -59,19 +60,19 @@ class PlaylistComponent extends React.Component<{}, State, Props> {
       showVideo: false,
     };
   }
-  displayData = async ()=> {  
-    try{
-      this.setState({playlist: await AsyncStorage.getItem('playlist')});
-      console.log(this.state.playlist);
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
+  // displayData = async ()=> {  
+  //   try{
+  //     this.setState({playlist: await AsyncStorage.getItem('playlist')});
+  //     console.log(this.state.playlist);
+  //   }
+  //   catch(error){
+  //     console.log(error);
+  //   }
+  // }
 
-  componentDidMount() {
-    this.displayData();
-  }
+  // componentDidMount() {
+  //   this.displayData();
+  // }
 
   showVideoFunc = async () => {
     this.setState({
@@ -88,7 +89,7 @@ class PlaylistComponent extends React.Component<{}, State, Props> {
           this.state.showVideo ? <VideoComponent /> :
         <StyledView>
         <Title> My playlist's </Title>
-        <StyledContainer onPress={this.showVideoFunc}>{this.state.playlist}</StyledContainer>
+        <StyledContainer onPress={this.showVideoFunc}>{this.props.playlist}</StyledContainer>
         </StyledView>
         }
       </ImageBackground>

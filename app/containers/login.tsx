@@ -4,7 +4,7 @@ import { addUserName } from '../actions/actions';
 import LoginComponent from '../components/login/login';
 // import { UserState } from '../actions/types';
 
-const mapStateToProps = (state: {username: any}) => {
+const mapStateToProps = (state: {username: string}) => {
   console.log('state', state);
   return {
     username: state.username,
