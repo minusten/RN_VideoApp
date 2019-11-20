@@ -1,27 +1,23 @@
 import React from 'react';
 import { Text, ImageBackground } from 'react-native';
+
 //Style
 import styled from 'styled-components/native';
 import { Input, Button } from 'react-native-elements';
 
 //Components
-import HeaderContainer from '../../containers/header';
+import HeaderContainer from '../header/container';
 
 const StyledView = styled.View`
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   width: 100%;
   height: 100%;
   background-color: rgba(244, 207, 174, 0.47);
-
 `;
 
 const StyledMainContainer = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
- 
 `;
 
 const StyledContainer = styled.View`
@@ -40,7 +36,9 @@ const Title = styled.Text`
 `;
 
 
-interface Props {}
+interface Props {
+  addUserName(username: string): string;
+}
 
 interface State {
   newUserName: string;
@@ -56,7 +54,8 @@ class SettingComponent extends React.Component<Props, State> {
 
   saveNewName = (e: any) => {
     this.props.addUserName(this.state.newUserName);
-    console.log(e.target.value);
+    e.preventDefault();
+    this.setState({newUserName: ''});
   }
 
   render() {
@@ -84,7 +83,7 @@ class SettingComponent extends React.Component<Props, State> {
         // onPress={this.signIn}
         // disabled={this.state.isSigninInProgress}
         /> */}
-    </StyledMainContainer>
+       </StyledMainContainer>
      </StyledView>
     </ImageBackground>
     );

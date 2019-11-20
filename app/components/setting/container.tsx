@@ -1,24 +1,22 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addUserName } from '../actions/actions';
-import LoginComponent from '../components/login/login';
-// import { UserState } from '../actions/types';
+import { addUserName } from '../../actions/actions';
+import SettingComponent from './setting';
 
 const mapStateToProps = (state: {username: string}) => {
-  console.log('state', state);
   return {
     username: state.username,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: any) => {
     return ({
         ...bindActionCreators({ addUserName }, dispatch),
     });
 };
 
-const LoginContainer = connect(
+const SettingContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginComponent);
+)(SettingComponent);
 
-export default LoginContainer;
+export default SettingContainer;

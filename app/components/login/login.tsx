@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, ImageBackground, Text, View } from 'react-native';
+import { Alert, ImageBackground, Text } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
@@ -7,9 +7,6 @@ import { Button, Input } from 'react-native-elements';
 
 //Icon
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-//Storage
-import AsyncStorage from '@react-native-community/async-storage';
 
 //Router-flux
 import { Actions } from 'react-native-router-flux';
@@ -26,14 +23,11 @@ const StyledView = styled.View`
   align-items: center;
   height: 100%;
 `;
-const Welcome = styled.Text`
-  font-size: 50;
-  color: #88a8b8;
-`;
-interface Props {
-  // username: string[];
-  // addUserName: (newUsername: string) => void;
+
+interface Props { 
+  addUserName(username: string): string;
 }
+
 interface State {
   isLogged: boolean;
   text: string;
@@ -56,15 +50,12 @@ class LoginComponent extends React.Component<Props, State> {
     };
  }
   saveUserName = () => {
-    // const newArr = this.props.username.slice();
-    // newArr.push(this.state.text);
     this.props.addUserName(this.state.text);
     if(this.state.text) {
       return Actions.home();
     } else {
       Alert.alert('Please, enter username');
     }
-   
   };
 
   // onSignInPress = () => {
@@ -91,9 +82,8 @@ class LoginComponent extends React.Component<Props, State> {
     return (
   <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%'}}> 
     <StyledView>
-      {/* <Welcome> Sign in </Welcome> */}
        <Input
-        inputStyle={{color: 'white', marginTop: 150, fontFamily: 'CormorantGaramond-Bold', fontSize: 20}}
+        inputStyle={{color: 'white', marginTop: 150, fontFamily: 'CormorantGaramond-Bold', fontSize: 30}}
         leftIconContainerStyle={{paddingEnd: 5, marginTop: 150}}
         value={this.state.text}
         onChangeText={text => this.setState({ text })}

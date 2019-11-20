@@ -1,19 +1,17 @@
 import React from 'react';
-import { ImageBackground, View } from 'react-native';
+import { ImageBackground, View, Alert } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
 import { Button } from 'react-native-elements';
 
-//Icon
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-//Storage
-import AsyncStorage from '@react-native-community/async-storage';
-
 //Components
 import VideoComponent from '../video/video';
-import HeaderContainer from '../../containers/header';
+import HeaderContainer from '../header/container';
+import NewPlaylistContainer from '../newPlaylist/container';
+
+//Router-flux
+import { Actions } from 'react-native-router-flux';
 
 const StyledView = styled.View`
   color: black;
@@ -24,13 +22,6 @@ const StyledView = styled.View`
 `;
 
 const StyledContainer = styled.Text`
-  /* /* height: 50;
-  
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row; */
   border: 1px solid black;
   border-radius: 15px; 
   width: 80%;
@@ -40,6 +31,7 @@ const StyledContainer = styled.Text`
   background-color: rgba(244, 207, 174, 0.47);
   display: flex;
   justify-content: space-between;
+  padding: 5px 5px;
 `;
 
 const StyledCont = styled.View`
@@ -58,21 +50,25 @@ const Title = styled.Text`
   font-family: 'AbrilFatface-Regular';
   text-shadow: 2px 2px 2px #000;
 `;
+
 interface Props { 
   playlist: string[];
+  removePlaylist(id: number): void;
 }
 
 interface State { 
   playlist: string;
   showVideo: boolean;
+  isDeleted: boolean;
 }
 
-class PlaylistComponent extends React.Component<{}, State, Props> {
+class PlaylistComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       playlist: '',
       showVideo: false,
+      isDeleted: false,
     };
   }
 
@@ -86,9 +82,15 @@ class PlaylistComponent extends React.Component<{}, State, Props> {
   deletePlaylist = (e: { preventDefault: () => void; }, id: any) => {
     e.preventDefault();
     this.props.removePlaylist(id);
-    console.log('delete');
+    if (id === 0) {
+      // this.setState({
+      //   isDeleted: !this.state.isDeleted,  
+      // });
+      Actions.pop();
+    } else {
+      console.log('Playlist ready');
+    }
   }
-
   render() {
     return (
       <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%',}}> 
@@ -97,18 +99,19 @@ class PlaylistComponent extends React.Component<{}, State, Props> {
           this.state.showVideo ? <VideoComponent /> :
         <StyledView>
         <Title> My playlist's </Title>
-        {this.props.playlist.map((video: string[], name: string)=>{
+        {this.props.playlist.map((video, name) => {
           return (
-          <StyledCont> 
-           <StyledContainer onPress={this.showVideoFunc} key={name}>
-            {video}
-           </StyledContainer> 
-           <Button title='Delete' onPress={e => this.deletePlaylist(e, name)} buttonStyle={{backgroundColor: '#d96e3d', marginLeft: 10, height: 40}} titleStyle={{color: 'black'}}/>
-          </StyledCont>
-          );
-        })}
+           <StyledCont key={name}> 
+             <StyledContainer onPress={this.showVideoFunc}>
+               {video}
+             </StyledContainer> 
+            <Button title='Delete' onPress={e => this.deletePlaylist(e, name)} buttonStyle={{backgroundColor: '#d96e3d', marginLeft: 10, height: 40}} titleStyle={{color: 'black'}}/>
+           </StyledCont>
+           );
+         })}
+         {/* {this.state.isDeleted ? <NewPlaylistContainer/> : null} */}
         </StyledView>
-        }
+       }
       </ImageBackground>
     );
   }

@@ -1,11 +1,9 @@
 import React from 'react';
-import { Alert, KeyboardAvoidingView } from 'react-native';
+import { Alert, View } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
 import { Input, Button } from 'react-native-elements';
-
-//Storage
 
 //Router-flux
 import { Actions } from 'react-native-router-flux';
@@ -15,29 +13,37 @@ const StyledView = styled.View`
   justify-content: space-between;
   align-items: center;
   height: 100px;
-  width: 80%;
+  width: 70%;
   border-radius: 15;
   flex-direction: row;
   background-color: rgba(244, 207, 174, 0.47);
+`;
+
+const ButtonContainer = styled.View`
+  flex-direction: column;
 `;
 
 interface Props {
   text: string;
   playlistTitle: string;
   playlist: string[];
+  isSkipped: boolean;
+  addPlaylist(arr: string[]): string[];
 }
 
 interface State {
   playlistTitle: string;
+  isSkipped: boolean;
+  text: string;
 }
 
-class NewPlaylistComponent extends React.Component<State, Props> {
+class NewPlaylistComponent extends React.Component<Props, State> {
  constructor(props: Props){
   super(props);
   this.state = {
     playlistTitle: '',
     text: '',
-    playlist: [],
+    isSkipped: false,
   };
  }
 
@@ -50,6 +56,15 @@ savePlaylist = () => {
   } else {
     Alert.alert('Please, enter playlist name');
   }
+  this.setState({
+    playlistTitle: '',
+  });
+}
+
+skipSavingPlaylist = () => {
+  this.setState({
+    isSkipped: !this.state.isSkipped,
+  });
 }
 
  render() {
@@ -61,9 +76,14 @@ savePlaylist = () => {
             value={this.state.playlistTitle}
             onChangeText={playlistTitle => this.setState({ playlistTitle })}
         />
-        <Button title='Add' onPress={this.savePlaylist} type='outline' 
-        titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', marginRight: 5}}
-        />
+        <ButtonContainer> 
+          <Button title='Add' onPress={this.savePlaylist} type='outline' 
+            titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', marginRight: 5, marginBottom: 5}}
+          />
+          <Button title='Cancel' onPress={this.skipSavingPlaylist} type='outline' 
+            titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', marginRight: 5}}
+          />
+        </ButtonContainer>
       </StyledView>
       );
    }

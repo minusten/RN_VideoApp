@@ -1,18 +1,19 @@
 import React from 'react';
 import { ImageBackground, View } from 'react-native';
-import NewPlaylistComponent from '../newPlaylist/newPlaylist';
+
 //Style
 import styled from 'styled-components/native';
 import { Button } from 'react-native-elements';
+
 //Icon
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 //Router-flux
 import { Actions } from 'react-native-router-flux';
-import HeaderContainer from '../../containers/header';
+import HeaderContainer from '../header/container';
 
-//Fonts
-import Cinzel from '../../../assets/fonts/Cinzel-Regular';
-import NewPlaylistContainer from '../../containers/newPlaylist';
+//Containers
+import NewPlaylistContainer from '../newPlaylist/container';
 
 const StyledView = styled.View`
   display: flex;
@@ -21,7 +22,7 @@ const StyledView = styled.View`
 `;
 
 const StyledContainer = styled.View`
-  height: 250px;
+  height: 300px;
   width: 330px;
   background-color: rgba(244, 207, 174, 0.47);
   display: flex;
@@ -33,17 +34,20 @@ const StyledContainer = styled.View`
   color: black;
 `;
 
+const Image = styled.View`
+  background-image: url('../../../assets/images/1.jpg');
+  background-position: cover;
+  background-repeat: no-repeat;
+`;
+
 const Title = styled.Text`
   font-size: 30;
   margin: 10px 10px;
   font-family: 'AbrilFatface-Regular';
 `;
 
-interface Props {
-  navigation: {
-    navigate: (screen: string) => void;
-  };
-}
+interface Props { }
+
 interface State {
   showDetails: boolean;
 }
@@ -78,14 +82,14 @@ class HomeComponent extends React.Component<Props, State> {
       <StyledView>
        <HeaderContainer />
         <StyledContainer> 
-          <View>
+        <Title>Welcome to home</Title>
+          <View style={{marginBottom: 10}}>
            {showDetails ?
              <NewPlaylistContainer />
             :
-             <Title>Welcome to home</Title>
+            <Icon name='playlist-plus' size={40} color='#000' onPress={this.addNewPlaylist}/>
             }
           </View>
-        <Icon name='playlist-plus' size={40} color='#000' onPress={this.addNewPlaylist}/>
        <Button  type='outline' titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{borderColor: 'black', marginBottom: 10, width: 150 }} title='Go to Playlist' onPress={this.navigateToPlaylistComponent} />
        <Button  type='outline' titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{borderColor: 'black', width: 150}} title='Go to Favorites' onPress={this.navigateToFavoritesComponent} />
       </StyledContainer>

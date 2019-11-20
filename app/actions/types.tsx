@@ -21,10 +21,4 @@ export interface PlaylistState {
 
 export const REMOVE_PLAYLIST = 'REMOVE_PLAYLIST';
 
-
-// interface AddUsernameAction {
-//     type: typeof ADD_USERNAME;
-//     payload: {username: User} ;
-// }
-
-// export type UserActionTypes = AddUsernameAction;
+export const ADD_FAVORITES = 'ADD_FAVORITES';

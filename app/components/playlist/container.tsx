@@ -1,15 +1,14 @@
 import * as reactRedux from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addPlaylist, removePlaylist } from '../actions/actions';
-import PlaylistComponent from '../components/playlist/playlist';
+import { addPlaylist, removePlaylist } from '../../actions/actions';
+import PlaylistComponent from './playlist';
 
-const mapStateToProps = (state: { playlist: string[]; }) => {
-  console.log('state', state);
+const mapStateToProps = (state: { playlist: string[]; playlistReducer: any}) => {
   return {
     playlist: state.playlistReducer.playlist,
   };
 };
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: any) => ({
     ...bindActionCreators({ addPlaylist, removePlaylist }, dispatch),
 });
 

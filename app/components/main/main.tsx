@@ -9,11 +9,12 @@ import FavoritesComponent from '../favorites/favorites';
 import { Router, Scene } from 'react-native-router-flux';
 
 //Redux containers
-import LoginContainer from '../../containers/login';
-import HeaderContainer from '../../containers/header';
-import NewPlaylistContainer from '../../containers/newPlaylist';
-import PlaylistContainer from '../../containers/playlist';
-import SettingContainer from '../../containers/setting';
+import LoginContainer from '../login/container';
+import HeaderContainer from '../header/container';
+import NewPlaylistContainer from '../newPlaylist/container';
+import PlaylistContainer from '../playlist/container';
+import SettingContainer from '../setting/container';
+import FavoritesContainer from '../favorites/container';
 
 interface Props {}
 
@@ -29,7 +30,7 @@ class Routes extends React.Component<Props> {
             <Scene key = 'playlist' component = {PlaylistContainer} title = 'Playlist' hideNavBar={true}/>
             <Scene key = 'setting' component = {SettingContainer} title = 'Setting' hideNavBar={true}/>
             <Scene key = 'video' component = {VideoComponent} title = 'Video' hideNavBar={true}/>
-            <Scene key = 'favorites' component = {FavoritesComponent} title = 'Favorites video' hideNavBar={true} />
+            <Scene key = 'favorites' component = {FavoritesContainer} title = 'Favorites video' hideNavBar={true} />
           </Scene>
          </Router>
       );

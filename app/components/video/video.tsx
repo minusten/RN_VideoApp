@@ -14,7 +14,7 @@ import { Actions } from 'react-native-router-flux';
 
 //Animated video list
 import { SwipeRow } from 'react-native-swipe-list-view';
-import HeaderContainer from '../../containers/header';
+import HeaderContainer from '../header/container';
 
 const StyledView = styled.View`
   display: flex;
@@ -34,7 +34,7 @@ const StyledContainer = styled.View`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 370px;
+  /* width: 370px; */
   height: 400px;
   border: 2px solid black;
   margin-bottom: 5px;
@@ -69,11 +69,12 @@ class VideoComponent extends React.Component<Props, State> {
         super(props);
         this.state = {
             vimeo: [],
-            width: new Animated.Value(0),
+            opacity: new Animated.Value(0),
             isFavorite: false,
             favoriteVideo: [],
         };
     }
+
   async getVideosForChannel() {
       const  { data }  = await axios.get(
         'https://api.vimeo.com/channels/1511223/videos',
@@ -92,22 +93,28 @@ class VideoComponent extends React.Component<Props, State> {
   addToFavorites = (index, e) => {
     this.setState({
       isFavorite: !this.state.isFavorite,
-      favoriteVideo: this.state.favoriteVideo.filter(item => item !== e.target.value),
     });
+    if (!this.state.isFavorite) {
+      const favArr = this.props.favorites.slice();
+      favArr.push(this.state.isFavorite);
+      this.props.addFavorites(favArr);
+    } else {
+      console.log('Video dont added to favorites');
+    }
   }
 
   componentDidMount() {
     this.getVideosForChannel();
     Animated.timing(
-      this.state.width, 
+      this.state.opacity, 
       {
-        toValue: 370,
-        duration: 4000,
+        toValue: 1,
+        duration: 3000,
+        useNativeDriver: true,
       }
     ).start();
   }
   
-
   render() {
     return (
       <StyledView>
@@ -115,7 +122,14 @@ class VideoComponent extends React.Component<Props, State> {
          <Title> My videos</Title> 
           {this.state.vimeo.map((video, name) => {
           return (
-           <Animated.View style = {{width: this.state.width}} key={name}> 
+           <Animated.View style = {[{opacity: this.state.opacity,
+              transform: [{scale: this.state.opacity.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0.85, 1],
+               }),
+              }],
+             }]}
+           key={name}> 
             <StyledContainer>
               <WebView source={{uri: video.link}} 
                 javaScriptEnabled={true}
@@ -130,16 +144,14 @@ class VideoComponent extends React.Component<Props, State> {
                <TouchableOpacity onPress={index => {this.addToFavorites(index);}}> 
                 {this.state.isFavorite ? <Image source={require('../../../assets/images/icons8-heart-24-filled.png')}/>:<Image source={require('../../../assets/images/icons8-heart-24.png')}/>}
                </TouchableOpacity>
-               </StyledContainer>
-          </Animated.View>
-         );
+              </StyledContainer>
+            </Animated.View>
+          );
         })} 
       </ScrollView>
     </StyledView>
-   
    );
- }
- 
+  }
 }
 
 export default VideoComponent;

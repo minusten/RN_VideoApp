@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, Button, View } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+
+//Roter-flux
 import { Actions } from 'react-native-router-flux';
 
 // Style
@@ -8,9 +9,6 @@ import styled from 'styled-components/native';
 
 //Icon
 import Icon from 'react-native-vector-icons/Feather';
-
-import User from '../../actions/types';
-import { addUserName } from '../../actions/actions';
 
 const StyledView = styled.View`
   display: flex;
@@ -46,7 +44,6 @@ class HeaderComponent extends React.Component<Props> {
   goToSetting = () => {
     Actions.setting();
   };
-
   render() {
     return (
          <StyledView>
