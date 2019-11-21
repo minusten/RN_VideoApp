@@ -25,7 +25,6 @@ const ButtonContainer = styled.View`
 
 interface Props {
   text: string;
-  playlistTitle: string;
   playlist: string[];
   isSkipped: boolean;
   addPlaylist(arr: string[]): string[];

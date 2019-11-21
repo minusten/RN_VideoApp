@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, View } from 'react-native';
+import { ImageBackground, View, ScrollView } from 'react-native';
 
 // Style
 import styled from 'styled-components/native';
@@ -13,25 +13,35 @@ import { Actions } from 'react-native-router-flux';
 
 //Style mixins
 import styledViewMixins from '../styles/styledViewMixins';
+import WebView from 'react-native-webview';
 
 const StyledContainer = styled.View`
-  height: 250px;
-  width: 100%;
-  margin-top: 20;
-  background-color: rgba(244, 207, 174, 0.47);
+ display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  /* width: 370px; */
+  height: 400px;
+  border: 2px solid black;
+  margin-bottom: 5px;
+  padding: 10px 10px;
+`;
+const StyledView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
+  /* width: 100%;*/
+  height: 100%; 
+  background-color: rgba(244, 207, 174, 0.47);
 `;
-
 const Name = styled.Text`
-  font-weight: bold;
-  margin-top: 20px;
-  color: black;
-  font-size: 50px;
+  font-size: 30;
+  margin: 10px 10px;
+  font-family: 'AbrilFatface-Regular';
 `;
 
-interface Props { }
+interface Props {
+  favorites: string[];
+ }
 
 class FavoritesComponent extends React.Component<Props> {
 
@@ -42,14 +52,28 @@ class FavoritesComponent extends React.Component<Props> {
   render() {
     return (
         <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%',}}> 
-         <View style={styledViewMixins.styledViewMixins}>
            <HeaderContainer />
-           <StyledContainer> 
-            <Name> Favorites video </Name>
-            <Button  type='outline' titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{borderColor: 'black', width: 150}} title='Add new video' onPress={this.goToVideo}/>
-           </StyledContainer>
-         </View>
-        </ImageBackground>
+           <ScrollView>
+           <StyledView>
+            <Name> Favorite video </Name>
+            {this.props.favorites.map((fav, name) => {
+              return (
+              <StyledContainer key={name}> 
+                    <WebView source={{uri: fav.link}} 
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                    useWebKit={true}   
+                    startInLoadingState={true}
+                    originWhitelist={['file://', '*']} 
+                    style={{ flex: 1, height: 400, width: 350 }}
+                  />
+              </StyledContainer>
+             );
+            })}
+           <Button  type='outline' titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{borderColor: 'black', width: 150}} title='Add new video' onPress={this.goToVideo}/>
+          </StyledView>
+        </ScrollView>
+      </ImageBackground>
     );
   }
 }

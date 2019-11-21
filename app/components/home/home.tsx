@@ -50,6 +50,7 @@ interface Props { }
 
 interface State {
   showDetails: boolean;
+  playlistAdded: boolean;
 }
 
 class HomeComponent extends React.Component<Props, State> {
@@ -57,6 +58,7 @@ class HomeComponent extends React.Component<Props, State> {
     super(props);
     this.state = {
       showDetails: false,
+      playlistAdded: false,
     };
   }
 
@@ -71,6 +73,7 @@ class HomeComponent extends React.Component<Props, State> {
   addNewPlaylist = () => {
     this.setState({
         showDetails: !this.state.showDetails,
+        playlistAdded: !this.state.playlistAdded,
     });
     console.log(this.state.showDetails);
   }

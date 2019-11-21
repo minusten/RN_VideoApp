@@ -12,6 +12,7 @@ import NewPlaylistContainer from '../newPlaylist/container';
 
 //Router-flux
 import { Actions } from 'react-native-router-flux';
+import VideoContainer from '../video/container';
 
 const StyledView = styled.View`
   color: black;
@@ -79,7 +80,7 @@ class PlaylistComponent extends React.Component<Props, State> {
     console.log('dddddd');
   }
 
-  deletePlaylist = (e: { preventDefault: () => void; }, id: any) => {
+  deletePlaylist = (e: { preventDefault: () => void; }, id: number) => {
     e.preventDefault();
     this.props.removePlaylist(id);
     if (id === 0) {
@@ -96,7 +97,7 @@ class PlaylistComponent extends React.Component<Props, State> {
       <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%',}}> 
         <HeaderContainer someText=''/>
         {
-          this.state.showVideo ? <VideoComponent /> :
+          this.state.showVideo ? <VideoContainer /> :
         <StyledView>
         <Title> My playlist's </Title>
         {this.props.playlist.map((video, name) => {

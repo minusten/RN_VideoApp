@@ -15,6 +15,7 @@ import NewPlaylistContainer from '../newPlaylist/container';
 import PlaylistContainer from '../playlist/container';
 import SettingContainer from '../setting/container';
 import FavoritesContainer from '../favorites/container';
+import VideoContainer from '../video/container';
 
 interface Props {}
 
@@ -29,7 +30,7 @@ class Routes extends React.Component<Props> {
             <Scene key = 'newPlaylist' component = {NewPlaylistContainer} title = 'New Playlist' hideNavBar={true}/>
             <Scene key = 'playlist' component = {PlaylistContainer} title = 'Playlist' hideNavBar={true}/>
             <Scene key = 'setting' component = {SettingContainer} title = 'Setting' hideNavBar={true}/>
-            <Scene key = 'video' component = {VideoComponent} title = 'Video' hideNavBar={true}/>
+            <Scene key = 'video' component = {VideoContainer} title = 'Video' hideNavBar={true}/>
             <Scene key = 'favorites' component = {FavoritesContainer} title = 'Favorites video' hideNavBar={true} />
           </Scene>
          </Router>

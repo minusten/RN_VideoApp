@@ -12,6 +12,12 @@ const initialState = {
                 favorites: action.payload,
                 // username: [...state, action.payload],
             };
+            // case REMOVE_PLAYLIST: 
+            // return {
+            //     playlist: state.playlist.filter((playlist, index) => {
+            //         return action.id !== index;
+            //       }),
+            // };
         default:
             return state;
     }

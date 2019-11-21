@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, Button, ScrollView, Image, TouchableOpacity, Animated} from 'react-native';
+import { View, Text, Button, ScrollView, Image, TouchableOpacity, Animated, Alert} from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
+import { CheckBox } from 'react-native-elements'
 
 //Video
 import Video from 'react-native-video';
@@ -12,8 +13,6 @@ import { WebView } from 'react-native-webview';
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 
-//Animated video list
-import { SwipeRow } from 'react-native-swipe-list-view';
 import HeaderContainer from '../header/container';
 
 const StyledView = styled.View`
@@ -21,7 +20,7 @@ const StyledView = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 700px;
   background-color: rgba(244, 207, 174, 0.47);
 `;
 
@@ -56,21 +55,25 @@ const CLIENT_ID = 'f37f467dae619c20091373e3a873f337ab790609';
 const CLIENT_SECRET = 'f1c+7wQ+T6nQs34aQP4Y4KMKWPh4DvLUPrGiYASnv0d1fjYg7T9Y9Qz1xW63J5fLhvg+bDwlczZg4gveA+9d9ETaJXdrVSxUDrDtcBstnf3gCCDhuB1W8RAwLcmQUCUI';
 const ACCESS_TOKEN = '4d51be248a8e7d14eddc69bba0d7f5e7';
 
-interface Props {}
+interface Props {
+  addFavorites(arr: string[]): any;
+  favorites: string[];
+}
 
 interface State {
-    vimeo: any[];
+    vimeo: string[];
     isFavorite: boolean;
     favoriteVideo: string[];
+    opacity: any;
 }
 
 class VideoComponent extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            vimeo: [],
-            opacity: new Animated.Value(0),
+            vimeo:[],
             isFavorite: false,
+            opacity: new Animated.Value(0),
             favoriteVideo: [],
         };
     }
@@ -86,18 +89,20 @@ class VideoComponent extends React.Component<Props, State> {
       );
     this.setState({
       vimeo: data.data,
+      isFavorite: this.state.isFavorite,
     });
     console.log('VIMEO', this.state.vimeo);
   }
 
-  addToFavorites = (index, e) => {
+  addToFavorites = (e: { preventDefault(): void }, id: number) => {
+    e.preventDefault();
     this.setState({
       isFavorite: !this.state.isFavorite,
     });
     if (!this.state.isFavorite) {
-      const favArr = this.props.favorites.slice();
-      favArr.push(this.state.isFavorite);
-      this.props.addFavorites(favArr);
+      this.state.favoriteVideo.push(this.state.vimeo);
+      Alert.alert('Added to favorites video');
+      this.props.addFavorites(this.state.vimeo);
     } else {
       console.log('Video dont added to favorites');
     }
@@ -120,7 +125,7 @@ class VideoComponent extends React.Component<Props, State> {
       <StyledView>
         <ScrollView> 
          <Title> My videos</Title> 
-          {this.state.vimeo.map((video, name) => {
+          {this.state.vimeo.map((video, item, isFavorite) => {
           return (
            <Animated.View style = {[{opacity: this.state.opacity,
               transform: [{scale: this.state.opacity.interpolate({
@@ -129,9 +134,10 @@ class VideoComponent extends React.Component<Props, State> {
                }),
               }],
              }]}
-           key={name}> 
+             key={item}
+            > 
             <StyledContainer>
-              <WebView source={{uri: video.link}} 
+             <WebView source={{uri: video.link}} 
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
                 useWebKit={true}   
@@ -141,9 +147,9 @@ class VideoComponent extends React.Component<Props, State> {
                 />
                <StyledText>{video.name}</StyledText>
                <StyledText>{Math.floor(video.duration % 3600 / 60)}:{Math.floor(video.duration % 3600 % 60)}</StyledText>
-               <TouchableOpacity onPress={index => {this.addToFavorites(index);}}> 
+               <TouchableOpacity onPress={video => this.addToFavorites(video, item)}> 
                 {this.state.isFavorite ? <Image source={require('../../../assets/images/icons8-heart-24-filled.png')}/>:<Image source={require('../../../assets/images/icons8-heart-24.png')}/>}
-               </TouchableOpacity>
+              </TouchableOpacity>
               </StyledContainer>
             </Animated.View>
           );
