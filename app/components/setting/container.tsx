@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addUserName } from '../../actions/actions';
+import { addUserName, addGooglePhoto } from '../../actions/actions';
 import SettingComponent from './setting';
 
 const mapStateToProps = (state: {username: string}) => {
@@ -10,7 +10,7 @@ const mapStateToProps = (state: {username: string}) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
     return ({
-        ...bindActionCreators({ addUserName }, dispatch),
+        ...bindActionCreators({ addUserName, addGooglePhoto }, dispatch),
     });
 };
 

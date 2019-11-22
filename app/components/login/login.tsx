@@ -11,11 +11,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 //Router-flux
 import { Actions } from 'react-native-router-flux';
 
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+//Google login
+import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
 
 //Redux
 import { addUserName } from '../../actions/actions';
-import { connect } from 'react-redux';
 
 const StyledView = styled.View`
   display: flex;
@@ -73,7 +73,7 @@ class LoginComponent extends React.Component<Props, State> {
       this.setState({ isSigninInProgress: true });
       GoogleSignin.hasPlayServices();
       const loggedInUser =  GoogleSignin.signIn()
-      .then((loggedInUser) => {
+      .then(loggedInUser => {
         console.log('user', loggedInUser);
         this.setState({
           loggedInUser,
@@ -91,9 +91,9 @@ class LoginComponent extends React.Component<Props, State> {
   };
 
   render() {
-    return (
-  <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%'}}> 
-    <StyledView>
+   return (
+    <ImageBackground source={require('../../../assets/images/1.jpg')} style={{width: '100%', height: '100%'}}> 
+     <StyledView>
        <Input
         inputStyle={{color: 'white', marginTop: 150, fontFamily: 'CormorantGaramond-Bold', fontSize: 30}}
         leftIconContainerStyle={{paddingEnd: 5, marginTop: 150}}

@@ -3,7 +3,7 @@ import { View, Text, Button, ScrollView, Image, TouchableOpacity, Animated, Aler
 
 //Style
 import styled from 'styled-components/native';
-import { CheckBox } from 'react-native-elements'
+import { CheckBox } from 'react-native-elements';
 
 //Video
 import Video from 'react-native-video';
@@ -12,8 +12,6 @@ import { WebView } from 'react-native-webview';
 //Axios
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
-
-import HeaderContainer from '../header/container';
 
 const StyledView = styled.View`
   display: flex;
@@ -79,6 +77,7 @@ class VideoComponent extends React.Component<Props, State> {
     }
 
   async getVideosForChannel() {
+    const { isFavorite, vimeo } = this.state;
       const  { data }  = await axios.get(
         'https://api.vimeo.com/channels/1511223/videos',
          {
@@ -88,21 +87,26 @@ class VideoComponent extends React.Component<Props, State> {
          }
       );
     this.setState({
-      vimeo: data.data,
-      isFavorite: this.state.isFavorite,
+      vimeo: data.data.map((item: { isFavorite: boolean; }) => {
+        item.isFavorite = this.state.isFavorite;
+        return item;
+      }),
     });
-    console.log('VIMEO', this.state.vimeo);
-  }
+      console.log('VIMEO', this.state.vimeo);
+    }
 
-  addToFavorites = (e: { preventDefault(): void }, id: number) => {
-    e.preventDefault();
+  addToFavorites = ( e: { preventDefault: () => void; },  id: number) => {
+    e.preventDefault(); 
     this.setState({
       isFavorite: !this.state.isFavorite,
     });
     if (!this.state.isFavorite) {
-      this.state.favoriteVideo.push(this.state.vimeo);
-      Alert.alert('Added to favorites video');
-      this.props.addFavorites(this.state.vimeo);
+      const favArr = this.props.favorites.slice();
+      favArr.push(this.state.vimeo.map((item) => {item.isFavorite = !item.isFavorite;
+        return item;
+        }));
+      this.props.addFavorites(favArr);
+        Alert.alert('Added to favorites video');
     } else {
       console.log('Video dont added to favorites');
     }
@@ -125,7 +129,7 @@ class VideoComponent extends React.Component<Props, State> {
       <StyledView>
         <ScrollView> 
          <Title> My videos</Title> 
-          {this.state.vimeo.map((video, item, isFavorite) => {
+          {this.state.vimeo.map((video, item) => {
           return (
            <Animated.View style = {[{opacity: this.state.opacity,
               transform: [{scale: this.state.opacity.interpolate({
@@ -147,9 +151,10 @@ class VideoComponent extends React.Component<Props, State> {
                 />
                <StyledText>{video.name}</StyledText>
                <StyledText>{Math.floor(video.duration % 3600 / 60)}:{Math.floor(video.duration % 3600 % 60)}</StyledText>
-               <TouchableOpacity onPress={video => this.addToFavorites(video, item)}> 
-                {this.state.isFavorite ? <Image source={require('../../../assets/images/icons8-heart-24-filled.png')}/>:<Image source={require('../../../assets/images/icons8-heart-24.png')}/>}
-              </TouchableOpacity>
+               <TouchableOpacity onPress={(e) => this.addToFavorites(e, item)}> 
+                {this.state.isFavorite === true ? <Image source={require('../../../assets/images/icons8-heart-24-filled.png')} /> :
+                <Image source={require('../../../assets/images/icons8-heart-24.png')}/> }
+               </TouchableOpacity> 
               </StyledContainer>
             </Animated.View>
           );

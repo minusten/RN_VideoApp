@@ -91,6 +91,7 @@ class SettingComponent extends React.Component<Props, State> {
           isSigninInProgress: false,
         });
         this.props.addUserName(loggedInUser.user.givenName);
+        this.props.addGooglePhoto(loggedInUser.user.photo);
       })
       .done();
     } catch (error) {
