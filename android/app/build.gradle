@@ -188,6 +188,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-auth0')
+    implementation project(':react-native-app-auth')
     implementation project(':@react-native-community_google-signin')
     implementation project(':react-native-webview')
     implementation project(':react-native-vector-icons')

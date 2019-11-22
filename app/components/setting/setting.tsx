@@ -5,8 +5,11 @@ import { Text, ImageBackground } from 'react-native';
 import styled from 'styled-components/native';
 import { Input, Button } from 'react-native-elements';
 
-//Components
+//Containers
 import HeaderContainer from '../header/container';
+
+//Google login
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 
 const StyledView = styled.View`
   width: 100%;
@@ -42,6 +45,10 @@ interface Props {
 
 interface State {
   newUserName: string;
+  loggedInUser: string;
+  token: string;
+  isSigninInProgress: boolean;
+  isUserSignedIn: boolean;
 }
 
 class SettingComponent extends React.Component<Props, State> {
@@ -49,6 +56,10 @@ class SettingComponent extends React.Component<Props, State> {
     super(props);
     this.state = {
       newUserName: '',
+      loggedInUser: '',
+      token: '',
+      isSigninInProgress: false,
+      isUserSignedIn: false,
     };
   }
 
@@ -57,6 +68,36 @@ class SettingComponent extends React.Component<Props, State> {
     e.preventDefault();
     this.setState({newUserName: ''});
   }
+
+  componentDidMount() {
+    GoogleSignin.configure({
+      webClientId: '112391187575-gf1855g3vusoamjpmt05fngchn9ror86.apps.googleusercontent.com', 
+      offlineAccess: true, 
+      hostedDomain: '', 
+      forceConsentPrompt: true, 
+      });
+  }
+
+  onSignInPress = () => {
+    try {
+      this.setState({ isSigninInProgress: true });
+      GoogleSignin.hasPlayServices();
+      const loggedInUser =  GoogleSignin.signIn()
+      .then((loggedInUser) => {
+        console.log('user', loggedInUser);
+        this.setState({
+          loggedInUser,
+          isUserSignedIn: true,
+          isSigninInProgress: false,
+        });
+        this.props.addUserName(loggedInUser.user.givenName);
+      })
+      .done();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   render() {
     return (
@@ -76,13 +117,13 @@ class SettingComponent extends React.Component<Props, State> {
             <Button title='Save' onPress={this.saveNewName} type='outline'  titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{marginLeft: 50, borderColor: 'black', backgroundColor: '#f08f3a'}} />
           </StyledContainer>
         <Text> Choose another google account </Text>
-        {/* <GoogleSigninButton
+        <GoogleSigninButton
         style={{ width: '100%', height: 48 }}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
-        // onPress={this.signIn}
-        // disabled={this.state.isSigninInProgress}
-        /> */}
+        onPress={this.onSignInPress}
+        disabled={this.state.isSigninInProgress}
+        />
        </StyledMainContainer>
      </StyledView>
     </ImageBackground>

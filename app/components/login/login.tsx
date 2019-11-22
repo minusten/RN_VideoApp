@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 //Router-flux
 import { Actions } from 'react-native-router-flux';
 
-// import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 
 //Redux
 import { addUserName } from '../../actions/actions';
@@ -58,25 +58,35 @@ class LoginComponent extends React.Component<Props, State> {
     }
   };
 
-  // onSignInPress = () => {
-  //   try {
-  //     this.setState({ isSigninInProgress: true });
-  //     GoogleSignin.hasPlayServices();
-  //     const loggedInUser =  GoogleSignin.signIn()
-  //     .then((loggedInUser) => {
-  //       console.log('user', loggedInUser);
-  //       this.setState({
-  //         loggedInUser,
-  //         isUserSignedIn: true,
-  //         isSigninInProgress: false,
-  //       });
-  //       Actions.home();
-  //     })
-  //     .done();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  componentDidMount() {
+    GoogleSignin.configure({
+      webClientId: '112391187575-gf1855g3vusoamjpmt05fngchn9ror86.apps.googleusercontent.com', 
+      offlineAccess: true, 
+      hostedDomain: '', 
+      forceConsentPrompt: true, 
+      });
+  }
+
+  onSignInPress = () => {
+    try {
+      this.setState({ isSigninInProgress: true });
+      GoogleSignin.hasPlayServices();
+      const loggedInUser =  GoogleSignin.signIn()
+      .then((loggedInUser) => {
+        console.log('user', loggedInUser);
+        this.setState({
+          loggedInUser,
+          isUserSignedIn: true,
+          isSigninInProgress: false,
+        });
+        this.props.addUserName(loggedInUser.user.givenName);
+        Actions.home();
+      })
+      .done();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   render() {
     return (
@@ -99,14 +109,14 @@ class LoginComponent extends React.Component<Props, State> {
         />
       <Button buttonStyle={{width: '100%', marginTop: 50}} titleStyle={{fontFamily: 'CormorantGaramond-Bold', fontSize: 30}} title='Login' onPress={this.saveUserName} type='outline'/>
       <Text style={{marginTop: 150, color: '#00a4db'}}>or</Text>
-      {/* <GoogleSigninButton
+      <GoogleSigninButton
         style={{ width: '60%', height: 48, borderWidth: 1, borderColor: '#00a4db'}}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
         onPress={this.onSignInPress}
         disabled={this.state.isSigninInProgress}
-        /> */}
-     </StyledView>
+        />
+      </StyledView>
     </ImageBackground>
     );
   }
