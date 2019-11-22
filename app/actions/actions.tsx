@@ -27,3 +27,10 @@ export const addFavorites = (favorites: string[], id: number) => {
     payload: favorites,
   };
 };
+
+export const addGooglePhoto = (photo: string) => {
+  return {
+    type: actionTypes.ADD_GOOGLEPHOTO,
+    payload: photo,
+  };
+};

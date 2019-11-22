@@ -22,3 +22,5 @@ export interface PlaylistState {
 export const REMOVE_PLAYLIST = 'REMOVE_PLAYLIST';
 
 export const ADD_FAVORITES = 'ADD_FAVORITES';
+
+export const ADD_GOOGLEPHOTO = 'ADD_GOOGLEPHOTO';

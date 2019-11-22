@@ -10,7 +10,6 @@ const initialState = {
             return {
                 ...state,
                 username: action.payload,
-                // username: [...state, action.payload],
             };
         default:
             return state;

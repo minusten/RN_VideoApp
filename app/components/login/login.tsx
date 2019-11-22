@@ -26,6 +26,7 @@ const StyledView = styled.View`
 
 interface Props { 
   addUserName(username: string): string;
+  addGooglePhoto(photo: string): string;
 }
 
 interface State {
@@ -80,6 +81,7 @@ class LoginComponent extends React.Component<Props, State> {
           isSigninInProgress: false,
         });
         this.props.addUserName(loggedInUser.user.givenName);
+        this.props.addGooglePhoto(loggedInUser.user.photo);
         Actions.home();
       })
       .done();
