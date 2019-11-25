@@ -64,7 +64,7 @@ class HeaderComponent extends React.Component<Props> {
              :
               <Image source={{uri: this.props.photo}} style={{height: 50, width: 50, borderRadius: 20}} />
              }
-             <Name><Welcome>Hello,</Welcome>{this.props.username}</Name>
+             <Name><Welcome>Hello, </Welcome>{this.props.username}</Name>
             </StyledContainer>
            <Icon name='menu' size={30} color='#000' onPress={this.goToSetting}/>
          </StyledView>

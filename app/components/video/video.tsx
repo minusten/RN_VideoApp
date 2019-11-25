@@ -101,11 +101,9 @@ class VideoComponent extends React.Component<Props, State> {
       isFavorite: !this.state.isFavorite,
     });
     if (!this.state.isFavorite) {
-      const favArr = this.props.favorites.slice();
-      favArr.push(this.state.vimeo.map((item) => {item.isFavorite = !item.isFavorite;
-        return item;
-        }));
-      this.props.addFavorites(favArr);
+      // const favArr = this.props.favorites.slice();
+      // favArr.push(this.state.vimeo);
+      this.props.addFavorites(this.state.vimeo);
         Alert.alert('Added to favorites video');
     } else {
       console.log('Video dont added to favorites');
@@ -123,13 +121,22 @@ class VideoComponent extends React.Component<Props, State> {
       }
     ).start();
   }
+
+  onRemove = () => {
+    this.setState(state => {
+      const [first, ...rest] = state.vimeo;
+      return {
+        vimeo: rest,
+      };
+    });
+  }
   
   render() {
     return (
       <StyledView>
         <ScrollView> 
          <Title> My videos</Title> 
-          {this.state.vimeo.map((video, item) => {
+          {this.state.vimeo.map((video) => {
           return (
            <Animated.View style = {[{opacity: this.state.opacity,
               transform: [{scale: this.state.opacity.interpolate({
@@ -138,7 +145,7 @@ class VideoComponent extends React.Component<Props, State> {
                }),
               }],
              }]}
-             key={item}
+             key={video}
             > 
             <StyledContainer>
              <WebView source={{uri: video.link}} 
@@ -151,8 +158,8 @@ class VideoComponent extends React.Component<Props, State> {
                 />
                <StyledText>{video.name}</StyledText>
                <StyledText>{Math.floor(video.duration % 3600 / 60)}:{Math.floor(video.duration % 3600 % 60)}</StyledText>
-               <TouchableOpacity onPress={(e) => this.addToFavorites(e, item)}> 
-                {this.state.isFavorite === true ? <Image source={require('../../../assets/images/icons8-heart-24-filled.png')} /> :
+               <TouchableOpacity onPress={this.onRemove}> 
+                {this.state.isFavorite ? <Image source={require('../../../assets/images/icons8-heart-24-filled.png')} /> :
                 <Image source={require('../../../assets/images/icons8-heart-24.png')}/> }
                </TouchableOpacity> 
               </StyledContainer>

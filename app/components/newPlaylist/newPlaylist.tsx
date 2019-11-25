@@ -7,6 +7,7 @@ import { Input, Button } from 'react-native-elements';
 
 //Router-flux
 import { Actions } from 'react-native-router-flux';
+import HomeComponent from '../home/home';
 
 const StyledView = styled.View`
   display: flex;
@@ -26,13 +27,12 @@ const ButtonContainer = styled.View`
 interface Props {
   text: string;
   playlist: string[];
-  isSkipped: boolean;
   addPlaylist(arr: string[]): string[];
 }
 
 interface State {
   playlistTitle: string;
-  isSkipped: boolean;
+  isCancelled: boolean;
   text: string;
 }
 
@@ -42,7 +42,7 @@ class NewPlaylistComponent extends React.Component<Props, State> {
   this.state = {
     playlistTitle: '',
     text: '',
-    isSkipped: false,
+    isCancelled: false,
   };
  }
 
@@ -62,7 +62,7 @@ savePlaylist = () => {
 
 skipSavingPlaylist = () => {
   this.setState({
-    isSkipped: !this.state.isSkipped,
+    isCancelled: !this.state.isCancelled,
   });
 }
 
@@ -79,9 +79,9 @@ skipSavingPlaylist = () => {
           <Button title='Add' onPress={this.savePlaylist} type='outline' 
             titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', marginRight: 5, marginBottom: 5}}
           />
-          <Button title='Cancel' onPress={this.skipSavingPlaylist} type='outline' 
+          {/* <Button title='Cancel' onPress={this.skipSavingPlaylist} type='outline' 
             titleStyle={{color: 'black'}} buttonStyle={{borderColor: 'black', marginRight: 5}}
-          />
+          /> */}
         </ButtonContainer>
       </StyledView>
       );

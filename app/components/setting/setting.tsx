@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, ImageBackground } from 'react-native';
+import { Text, ImageBackground, View } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
@@ -9,7 +9,7 @@ import { Input, Button } from 'react-native-elements';
 import HeaderContainer from '../header/container';
 
 //Google login
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
 
 const StyledView = styled.View`
   width: 100%;
@@ -40,7 +40,8 @@ const Title = styled.Text`
 
 
 interface Props {
-  addUserName(username: string): string;
+  addUserName(username: string | null): string;
+  addGooglePhoto(photo: string | null): string;
 }
 
 interface State {
@@ -116,15 +117,15 @@ class SettingComponent extends React.Component<Props, State> {
                onChangeText={newUserName => this.setState({ newUserName })}
               />
             <Button title='Save' onPress={this.saveNewName} type='outline'  titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{marginLeft: 50, borderColor: 'black', backgroundColor: '#f08f3a'}} />
-          </StyledContainer>
-        <Text> Choose another google account </Text>
+          </StyledContainer> 
+        <Text style={{marginTop: 50, marginBottom: 20}}> Choose another google account </Text>
         <GoogleSigninButton
-        style={{ width: '100%', height: 48 }}
+        style={{ width: '90%', height: 48 }}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
         onPress={this.onSignInPress}
         disabled={this.state.isSigninInProgress}
-        />
+         /> 
        </StyledMainContainer>
      </StyledView>
     </ImageBackground>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, View, Alert } from 'react-native';
+import { ImageBackground, Text, Alert } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';

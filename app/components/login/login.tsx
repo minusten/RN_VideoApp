@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 
 //Google login
-import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 
 //Redux
 import { addUserName } from '../../actions/actions';
@@ -86,7 +86,11 @@ class LoginComponent extends React.Component<Props, State> {
       })
       .done();
     } catch (error) {
-      console.log(error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User cancelled');
+      } else {
+        console.log(error);
+      }
     }
   };
 
