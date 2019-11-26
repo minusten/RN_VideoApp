@@ -4,7 +4,8 @@ import { Alert, ImageBackground, Text } from 'react-native';
 //Style
 import styled from 'styled-components/native';
 import { Button, Input } from 'react-native-elements';
-
+import { Toast } from 'native-base';
+ 
 //Icon
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -36,6 +37,9 @@ interface State {
   token: string;
   isSigninInProgress: boolean;
   isUserSignedIn: boolean;
+  showToast: boolean;
+  userInfo: any;
+  loggedIn: boolean;
 }
 
 class LoginComponent extends React.Component<Props, State> {
@@ -48,31 +52,43 @@ class LoginComponent extends React.Component<Props, State> {
         token: '',
         isSigninInProgress: false,
         isUserSignedIn: false,
+        showToast: false,
+        userInfo: '',
+        loggedIn: false,
     };
  }
   saveUserName = () => {
     this.props.addUserName(this.state.text);
+    this.props.addGooglePhoto('');
     if(this.state.text) {
-      return Actions.home();
+      this.setState({
+        text: '',
+      });
+      Actions.home();
     } else {
-      Alert.alert('Please, enter username');
+      Toast.show({
+        text: 'Enter username!',
+        position: 'bottom',
+        type: 'danger',
+      });}
     }
-  };
 
   componentDidMount() {
     GoogleSignin.configure({
       webClientId: '112391187575-gf1855g3vusoamjpmt05fngchn9ror86.apps.googleusercontent.com', 
-      offlineAccess: true, 
-      hostedDomain: '', 
-      forceConsentPrompt: true, 
+      // offlineAccess: false, 
+      // hostedDomain: '', 
+      // forceConsentPrompt: true, 
+      // loginHint: '',
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
       });
   }
 
-  onSignInPress = () => {
+  onSignInPress = async () => {
     try {
       this.setState({ isSigninInProgress: true });
       GoogleSignin.hasPlayServices();
-      const loggedInUser =  GoogleSignin.signIn()
+      const loggedInUser =  await GoogleSignin.signIn()
       .then(loggedInUser => {
         console.log('user', loggedInUser);
         this.setState({
@@ -83,8 +99,8 @@ class LoginComponent extends React.Component<Props, State> {
         this.props.addUserName(loggedInUser.user.givenName);
         this.props.addGooglePhoto(loggedInUser.user.photo);
         Actions.home();
-      })
-      .done();
+      });
+      // .done();
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('User cancelled');
@@ -114,13 +130,13 @@ class LoginComponent extends React.Component<Props, State> {
           }
         />
       <Button buttonStyle={{width: '100%', marginTop: 50}} titleStyle={{fontFamily: 'CormorantGaramond-Bold', fontSize: 30}} title='Login' onPress={this.saveUserName} type='outline'/>
-      <Text style={{marginTop: 150, color: '#00a4db'}}>or</Text>
+      <Text style={{marginTop: 50, color: '#00a4db'}}>or</Text>
       <GoogleSigninButton
         style={{ width: '60%', height: 48, borderWidth: 1, borderColor: '#00a4db'}}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
         onPress={this.onSignInPress}
-        disabled={this.state.isSigninInProgress}
+        // disabled={this.state.isSigninInProgress}
         />
       </StyledView>
     </ImageBackground>

@@ -3,7 +3,7 @@ import { View, Text, Button, ScrollView, Image, TouchableOpacity, Animated, Aler
 
 //Style
 import styled from 'styled-components/native';
-import { CheckBox } from 'react-native-elements';
+import { Toast } from 'native-base';
 
 //Video
 import Video from 'react-native-video';
@@ -91,22 +91,34 @@ class VideoComponent extends React.Component<Props, State> {
         item.isFavorite = this.state.isFavorite;
         return item;
       }),
+      // vimeo: data.data,
     });
       console.log('VIMEO', this.state.vimeo);
     }
 
-  addToFavorites = ( e: { preventDefault: () => void; },  id: number) => {
-    e.preventDefault(); 
+  addToFavorites = (e: any, videoId: number) => {
+    e.preventDefault();
     this.setState({
       isFavorite: !this.state.isFavorite,
     });
     if (!this.state.isFavorite) {
-      // const favArr = this.props.favorites.slice();
-      // favArr.push(this.state.vimeo);
-      this.props.addFavorites(this.state.vimeo);
-        Alert.alert('Added to favorites video');
+      this.state.favoriteVideo.push(this.state.vimeo.map((item: { isFavorite: boolean; }) => {
+        item.isFavorite = !this.state.isFavorite;
+        return item;
+      }));
+    this.props.addFavorites(videoId);
+      Toast.show({
+        text: 'Added to favorites video!',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'success',
+      });
     } else {
-      console.log('Video dont added to favorites');
+      Toast.show({
+        text: 'Unadded to favorites video!',
+        buttonText: 'Okay',
+        position: 'top',
+      });
     }
   }
 
@@ -129,14 +141,14 @@ class VideoComponent extends React.Component<Props, State> {
         vimeo: rest,
       };
     });
-  }
+  };
   
   render() {
     return (
       <StyledView>
         <ScrollView> 
          <Title> My videos</Title> 
-          {this.state.vimeo.map((video) => {
+          {this.state.vimeo.map((video: any, videoId) => {
           return (
            <Animated.View style = {[{opacity: this.state.opacity,
               transform: [{scale: this.state.opacity.interpolate({
@@ -145,23 +157,32 @@ class VideoComponent extends React.Component<Props, State> {
                }),
               }],
              }]}
-             key={video}
+             key={videoId}
+            
             > 
             <StyledContainer>
              <WebView source={{uri: video.link}} 
+                useWebKit={true} 
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
-                useWebKit={true}   
                 startInLoadingState={true}
                 originWhitelist={['file://', '*']} 
                 style={{ flex: 1, height: 400, width: 350 }}
+                key={videoId}
+                {...video}
                 />
                <StyledText>{video.name}</StyledText>
                <StyledText>{Math.floor(video.duration % 3600 / 60)}:{Math.floor(video.duration % 3600 % 60)}</StyledText>
-               <TouchableOpacity onPress={this.onRemove}> 
-                {this.state.isFavorite ? <Image source={require('../../../assets/images/icons8-heart-24-filled.png')} /> :
-                <Image source={require('../../../assets/images/icons8-heart-24.png')}/> }
-               </TouchableOpacity> 
+               
+               <TouchableOpacity  onPress={ (e) => this.addToFavorites(e, videoId)} > 
+                { this.state.isFavorite ?
+               
+                <Image  source={require('../../../assets/images/icons8-heart-24-filled.png')} /> 
+            :
+                 
+                <Image  source={require('../../../assets/images/icons8-heart-24.png')} /> 
+               }
+               </TouchableOpacity>
               </StyledContainer>
             </Animated.View>
           );

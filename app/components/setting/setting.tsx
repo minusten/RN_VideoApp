@@ -10,6 +10,7 @@ import HeaderContainer from '../header/container';
 
 //Google login
 import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
+import { Actions } from 'react-native-router-flux';
 
 const StyledView = styled.View`
   width: 100%;
@@ -93,13 +94,22 @@ class SettingComponent extends React.Component<Props, State> {
         });
         this.props.addUserName(loggedInUser.user.givenName);
         this.props.addGooglePhoto(loggedInUser.user.photo);
-      })
-      .done();
+      });
+      // .done();
     } catch (error) {
       console.log(error);
     }
   };
 
+  logOut = () => {
+    this.props.addUserName('');
+    Actions.popTo('login');
+    if (this.props.photo !== '') {
+      this.props.addGooglePhoto('');
+    } else {
+      console.log('Photo dont deleted');
+    }
+  }
 
   render() {
     return (
@@ -126,6 +136,7 @@ class SettingComponent extends React.Component<Props, State> {
         onPress={this.onSignInPress}
         disabled={this.state.isSigninInProgress}
          /> 
+           <Button title='Logout from all accounts' onPress={this.logOut} type='outline' titleStyle={{color: 'black', fontFamily: 'CormorantGaramond-Bold'}} buttonStyle={{borderColor: 'black', marginTop: 150, width: 150 }} />
        </StyledMainContainer>
      </StyledView>
     </ImageBackground>

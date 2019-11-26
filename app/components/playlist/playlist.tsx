@@ -1,9 +1,10 @@
 import React from 'react';
-import { ImageBackground, Text, Alert } from 'react-native';
+import { ImageBackground } from 'react-native';
 
 //Style
 import styled from 'styled-components/native';
 import { Button } from 'react-native-elements';
+import { SwipeRow, View, Text, Icon } from 'native-base';
 
 //Components
 import VideoComponent from '../video/video';

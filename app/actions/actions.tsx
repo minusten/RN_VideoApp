@@ -21,10 +21,10 @@ export const removePlaylist = (id: number) => {
   };
 };
 
-export const addFavorites = (favorites: string[], id: number) => {
+export const addFavorites = (id: number) => {
   return {
     type: actionTypes.ADD_FAVORITES,
-    payload: favorites,
+    id,
   };
 };
 
