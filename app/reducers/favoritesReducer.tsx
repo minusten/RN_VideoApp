@@ -8,11 +8,11 @@ const initialState = {
     switch (action.type) {
         case ADD_FAVORITES:
             return {
-                // ...state,
-                // favorites: action.payload,
-                favorites: state.favorites.filter((fav, index) => {
-                    return action.id !== index;
-                }),
+                ...state,
+                favorites: action.payload,
+                // favorites: state.favorites.filter((fav, index) => {
+                //     return action.id !== index;
+                // }),
             };
         default:
             return state;

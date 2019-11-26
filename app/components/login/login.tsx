@@ -76,10 +76,10 @@ class LoginComponent extends React.Component<Props, State> {
   componentDidMount() {
     GoogleSignin.configure({
       webClientId: '112391187575-gf1855g3vusoamjpmt05fngchn9ror86.apps.googleusercontent.com', 
-      // offlineAccess: false, 
-      // hostedDomain: '', 
-      // forceConsentPrompt: true, 
-      // loginHint: '',
+      offlineAccess: true, 
+      hostedDomain: '', 
+      forceConsentPrompt: true, 
+      loginHint: '',
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
       });
   }
