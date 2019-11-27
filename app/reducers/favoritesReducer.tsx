@@ -1,4 +1,4 @@
-import { ADD_FAVORITES } from '../actions/types';
+import { ADD_FAVORITES, REMOVE_FAVORITE } from '../actions/types';
 
 const initialState = {
     favorites: [],
@@ -10,9 +10,13 @@ const initialState = {
             return {
                 ...state,
                 favorites: action.payload,
-                // favorites: state.favorites.filter((fav, index) => {
-                //     return action.id !== index;
-                // }),
+             
+            };
+        case REMOVE_FAVORITE:
+            return {
+                 favorites: state.favorites.filter((fav, index) => {
+                    return action.id !== index;
+                }),
             };
         default:
             return state;

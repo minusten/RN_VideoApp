@@ -5,7 +5,7 @@ import VideoComponent from './video';
 
 const mapStateToProps = (state: {favorites: string[], favoritesReducer: any}) => {
   return {
-    favorites: state.favorites,
+    favorites: state.favoritesReducer.favorites,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

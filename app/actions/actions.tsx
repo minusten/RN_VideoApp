@@ -28,6 +28,13 @@ export const addFavorites = (favorites: string[]) => {
   };
 };
 
+export const removeFavorite = (id: number) => {
+  return {
+    type: actionTypes.REMOVE_FAVORITE,
+    id,
+  };
+};
+
 export const addGooglePhoto = (photo: string) => {
   return {
     type: actionTypes.ADD_GOOGLEPHOTO,

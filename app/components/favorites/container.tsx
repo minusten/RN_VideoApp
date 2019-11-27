@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addFavorites } from '../../actions/actions';
+import { addFavorites, removeFavorite } from '../../actions/actions';
 import FavoritesComponent from './favorites';
 
 const mapStateToProps = (state: {favorites: string[], favoritesReducer: any}) => {
@@ -10,7 +10,7 @@ const mapStateToProps = (state: {favorites: string[], favoritesReducer: any}) =>
 };
 const mapDispatchToProps = (dispatch: any) => {
     return ({
-        ...bindActionCreators({ addFavorites }, dispatch),
+        ...bindActionCreators({ addFavorites, removeFavorite }, dispatch),
     });
 };
 
