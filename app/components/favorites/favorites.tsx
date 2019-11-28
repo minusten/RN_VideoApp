@@ -4,6 +4,7 @@ import { ImageBackground, Image, ScrollView, TouchableOpacity } from 'react-nati
 // Style
 import styled from 'styled-components/native';
 import { Button } from 'react-native-elements';
+import { Toast } from 'native-base';
 
 //Containers
 import HeaderContainer from '../header/container';
@@ -53,6 +54,10 @@ class FavoritesComponent extends React.Component<Props> {
 
   removeFav = (id: number) => {
     this.props.removeFavorite(id);
+    Toast.show({
+      text: 'Deleted from favorites video!',
+      position: 'top',
+    });
   }
 
   render() {
@@ -62,7 +67,7 @@ class FavoritesComponent extends React.Component<Props> {
            <ScrollView>
            <StyledView>
             <Name> Favorite video </Name>
-            {this.props.favorites.map((fav: any, name) => {
+            {this.props.favorites.map((fav: string | any, name: number) => {
               return (
               <StyledContainer key={name}> 
                  <TouchableOpacity onPress={() => this.removeFav(name)}  

@@ -32,11 +32,11 @@ target 'reactNativeStarterKit' do
   pod 'react-native-video', :path => '../node_modules/react-native-video/react-native-video.podspec'
   pod 'GoogleSignIn', '~> 5.0.0'
   pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
-  # pod 'AppAuth', '0.94.0'
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 # add the Firebase pod for Google Analytics
   pod 'Firebase/Analytics'
-
+  pod 'RNFBFirestore', :path => '../node_modules/@react-native-firebase/firestore'
+  pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
 # add pods for any other desired Firebase products
 # https://firebase.google.com/docs/ios/setup#available-pods
 

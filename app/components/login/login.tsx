@@ -18,6 +18,11 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-com
 //Redux
 import { addUserName } from '../../actions/actions';
 
+//Firebase
+import { firebase } from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
+
 const StyledView = styled.View`
   display: flex;
   justify-content: center;
@@ -40,6 +45,7 @@ interface State {
   showToast: boolean;
   userInfo: any;
   loggedIn: boolean;
+  userData: null;
 }
 
 class LoginComponent extends React.Component<Props, State> {
@@ -55,6 +61,7 @@ class LoginComponent extends React.Component<Props, State> {
         showToast: false,
         userInfo: '',
         loggedIn: false,
+        userData: null,
     };
  }
   saveUserName = () => {
@@ -77,25 +84,50 @@ class LoginComponent extends React.Component<Props, State> {
     GoogleSignin.configure({
       webClientId: '112391187575-gf1855g3vusoamjpmt05fngchn9ror86.apps.googleusercontent.com', 
       offlineAccess: true, 
-      hostedDomain: '', 
+      hostedDomain: 'gmail.com', 
       forceConsentPrompt: true, 
       loginHint: '',
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
       });
+      database().ref('/users').once('value').then(snapshot => {
+        const pro = snapshot.val()
+        this.setState({userData: pro})
+        console.log(this.state.userData)
+    });
   }
 
   onSignInPress = async () => {
     try {
       this.setState({ isSigninInProgress: true });
       GoogleSignin.hasPlayServices();
-      const loggedInUser =  await GoogleSignin.signIn()
-      .then(loggedInUser => {
+       await GoogleSignin.signIn()
+      .then((loggedInUser: any) => {
         console.log('user', loggedInUser);
         this.setState({
           loggedInUser,
           isUserSignedIn: true,
           isSigninInProgress: false,
         });
+        const credential = firebase.auth.GoogleAuthProvider.credential(loggedInUser.idToken);
+        firebase.auth().signInWithCredential(credential);
+        // const user = firebase.auth().currentUser;
+        // firebase.auth().onAuthStateChanged(user => {console.log(user)});
+      
+        let rootRef = database().ref('users');
+        rootRef
+        .orderByChild('idToken')
+        .equalTo(loggedInUser.idToken)
+        .once('value')
+        .then(snapshot => {
+          // if (snapshot.exists()) {
+            let user = snapshot.val();
+            console.log(snapshot.exists())
+          // } else {
+          //   database().ref('users').push({loggedInUser});
+          // }
+        })
+
+       
         this.props.addUserName(loggedInUser.user.givenName);
         this.props.addGooglePhoto(loggedInUser.user.photo);
         Actions.home();

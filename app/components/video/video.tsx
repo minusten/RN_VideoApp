@@ -49,8 +49,6 @@ const Title = styled.Text`
   margin-top: 20;
 `; 
 
-const CLIENT_ID = 'f37f467dae619c20091373e3a873f337ab790609';
-const CLIENT_SECRET = 'f1c+7wQ+T6nQs34aQP4Y4KMKWPh4DvLUPrGiYASnv0d1fjYg7T9Y9Qz1xW63J5fLhvg+bDwlczZg4gveA+9d9ETaJXdrVSxUDrDtcBstnf3gCCDhuB1W8RAwLcmQUCUI';
 const ACCESS_TOKEN = '4d51be248a8e7d14eddc69bba0d7f5e7';
 
 interface Props {
@@ -77,7 +75,6 @@ class VideoComponent extends React.Component<Props, State> {
     }
 
   async getVideosForChannel() {
-    const { isFavorite, vimeo } = this.state;
       const  { data }  = await axios.get(
         'https://api.vimeo.com/channels/1511223/videos',
          {
@@ -91,7 +88,6 @@ class VideoComponent extends React.Component<Props, State> {
         item.isFavorite = this.state.isFavorite;
         return item;
       }),
-      // vimeo: data.data,
     });
       console.log('VIMEO', this.state.vimeo);
     }
@@ -106,20 +102,11 @@ class VideoComponent extends React.Component<Props, State> {
     favArr.push(newArr[videoId])
     this.props.addFavorites(favArr);
     console.log(newArr);
-    if (!this.state.isFavorite) {
       Toast.show({
         text: 'Added to favorites video!',
-        buttonText: 'Okay',
         position: 'top',
         type: 'success',
       });
-    } else {
-      Toast.show({
-        text: 'Unadded to favorites video!',
-        buttonText: 'Okay',
-        position: 'top',
-      });
-    }
   }
 
   componentDidMount() {
@@ -158,7 +145,6 @@ class VideoComponent extends React.Component<Props, State> {
               }],
              }]}
              key={videoId}
-           
             > 
             <StyledContainer>
              <WebView source={{uri: video.link}} 
